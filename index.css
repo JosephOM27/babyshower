@@ -240,7 +240,7 @@ body {
 
 .envelope-card {
     width: 210px;
-    height: 160px;
+    height: 168px;
     background-color: var(--cream-light);
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(93, 67, 58, 0.08);
@@ -248,15 +248,15 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid rgba(255, 117, 151, 0.15);
 }
 
 .envelope-card .strawberry-stamp {
-    width: 120px;
-    height: 120px;
+    width: 85px;
+    height: 85px;
     object-fit: contain;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .cover-screen.visible .strawberry-stamp {
