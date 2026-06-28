@@ -85,7 +85,7 @@
 
             <!-- Scene 1: Stork Flying Wrapper -->
             <div class="stork-wrapper" id="stork">
-                <img class="stork-img" src="img/cigueña llevando a fresita.webp" alt="Cigüeña volando" onerror="this.style.display='none'; document.getElementById('storkFallback').style.display='flex';">
+                <img class="stork-img" src="img/ciguena-llevando-fresita.webp" alt="Cigüeña volando" onerror="this.style.display='none'; document.getElementById('storkFallback').style.display='flex';">
                 <div id="storkFallback" class="stork-img" style="display:none; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); border-radius:50%; border:3px solid var(--pink-medium);">
                     <i class="fas fa-dove" style="font-size:4rem; color:var(--pink-dark);"></i>
                 </div>
@@ -93,7 +93,7 @@
 
             <!-- Scene 2 & 3: Dropped Baby Falling Wrapper -->
             <div class="baby-wrapper" id="baby">
-                <img class="baby-img" src="img/Fresita saludando.webp" alt="Bebé Fresita cayendo" onerror="this.style.display='none'; document.getElementById('babyFallback').style.display='flex';">
+                <img class="baby-img" src="img/fresita-saludando.webp" alt="Bebé Fresita cayendo" onerror="this.style.display='none'; document.getElementById('babyFallback').style.display='flex';">
                 <div id="babyFallback" class="baby-img" style="display:none; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); border-radius:50%; border:3px dashed var(--pink-dark);">
                     <i class="fas fa-baby" style="font-size:3rem; color:var(--pink-dark);"></i>
                 </div>
@@ -551,7 +551,7 @@
                 
                 // Change stork image to represent releasing the baby
                 const storkImg = stork.querySelector('.stork-img');
-                if (storkImg) storkImg.src = 'img/cigueña botando a fresita.webp';
+                if (storkImg) storkImg.src = 'img/ciguena-botando-fresita.webp';
                 
                 // Drop baby
                 baby.classList.add('falling');
