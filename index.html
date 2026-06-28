@@ -453,10 +453,13 @@
             if (useSynth) {
                 synth.start();
             } else {
-                bgMusic.play().catch(err => {
-                    console.warn("Autoplay audio failed, switching to synth fallback.", err);
-                    synth.start();
-                    useSynth = true;
+                bgMusic.play().then(() => {
+                    // Reproducción exitosa de MP3
+                }).catch(err => {
+                    console.warn("Autoplay bloqueado por el navegador. Esperando interacción del usuario.");
+                    audioPlaying = false;
+                    audioToggle.classList.remove('playing');
+                    audioIcon.className = 'fas fa-volume-mute';
                 });
             }
         }
