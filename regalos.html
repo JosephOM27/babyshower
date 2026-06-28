@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Lista de Regalos · Baby Shower Joyce</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Link to reuse variables and desktop frames -->
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* Custom styles specific to the premium registry page */
+        .registry-container {
+            padding: clamp(14px, 3.5vw, 22px);
+            overflow-y: auto;
+            width: 100%;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            z-index: 2;
+            position: relative;
+        }
+
+        .registry-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Washed out checkered background for high contrast legibility */
+        .checkered-bg-washed {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(to bottom, rgba(255, 253, 249, 0.94) 0%, rgba(255, 253, 249, 0.97) 100%),
+                url('img/fondo mantel rosa picnic.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .back-nav-row {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            z-index: 10;
+        }
+
+        .back-btn {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.76rem;
+            color: var(--brown-text);
+            background-color: rgba(255, 253, 249, 0.95);
+            border: 1px solid rgba(255, 117, 151, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(93, 67, 58, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-3px);
+            background-color: #FFF2F4;
+            border-color: var(--pink-medium);
+        }
+
+        /* Header Card Wrapper to enhance legibility against the background */
+        .registry-header-card {
+            width: 100%;
+            text-align: center;
+        }
+
+        .header-card-inner {
+            background-color: rgba(255, 255, 255, 0.88);
+            border-radius: 24px;
+            padding: clamp(14px, 4vw, 20px);
+            border: 1px solid rgba(255, 117, 151, 0.15);
+            box-shadow: 0 6px 18px rgba(93, 67, 58, 0.03);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .registry-subtitle {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 0.82rem;
+            color: var(--brown-light);
+            line-height: 1.45;
+            max-width: 320px;
+            margin: 6px auto 0;
+        }
+
+        /* Premium Floating Sticky categories filter bar (No clipping) */
+        .categories-filter-bar {
+            position: sticky;
+            top: 10px;
+            background-color: rgba(255, 253, 249, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 10px 12px;
+            margin: 0;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            /* Evita cualquier recorte vertical extraño */
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 117, 151, 0.18);
+            box-shadow: 0 8px 20px rgba(93, 67, 58, 0.06);
+            flex-shrink: 0;
+            /* IMPEDIR que flexbox reduzca la altura de la barra a la mitad */
+            -ms-overflow-style: none;
+            /* Ocultar scrollbar en IE/Edge */
+        }
+
+        .categories-filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-chip {
+            padding: 8px 14px;
+            border-radius: 50px;
+            background-color: var(--cream-light);
+            border: 1px solid rgba(93, 67, 58, 0.08);
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--brown-light);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+            /* Evita que los botones se encojan y se deformen */
+        }
+
+        .category-chip.active {
+            background: linear-gradient(135deg, var(--pink-dark) 0%, var(--strawberry-red) 100%);
+            color: #FFF;
+            border-color: var(--pink-dark);
+            box-shadow: 0 4px 10px rgba(255, 117, 151, 0.2);
+        }
+
+        /* Gift sections and items */
+        .registry-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            scroll-margin-top: 85px;
+            /* Compensa la barra sticky flotante al hacer scroll con JS */
+        }
+
+        .registry-section-title {
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            color: var(--pink-dark);
+            margin: 10px 0 2px 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            scroll-margin-top: 75px;
+            /* Perfect offset for floating bar */
+        }
+
+        .registry-section-title i {
+            color: var(--pink-medium);
+            font-size: 0.95rem;
+        }
+
+        .gift-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .gift-item-card {
+            background-color: var(--cream-light);
+            border: 1px solid rgba(93, 67, 58, 0.06);
+            border-radius: 18px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(93, 67, 58, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .gift-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(93, 67, 58, 0.05);
+            border-color: var(--pink-pastel);
+        }
+
+        .gift-item-image {
+            width: 66px;
+            height: 66px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background-color: var(--pink-pastel);
+            border: 1px solid rgba(93, 67, 58, 0.05);
+        }
+
+        .gift-item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            text-align: left;
+        }
+
+        .gift-item-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--brown-text);
+            line-height: 1.25;
+        }
+
+        .gift-item-desc {
+            font-size: 0.65rem;
+            color: var(--brown-light);
+            line-height: 1.35;
+        }
+
+        .gift-status-badge {
+            display: inline-flex;
+            align-items: center;
+            align-self: flex-start;
+            font-size: 0.58rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .gift-status-badge.available {
+            background-color: var(--green-light);
+            color: var(--green-dark);
+            border: 1px solid rgba(137, 194, 135, 0.15);
+        }
+
+        .gift-status-badge.reserved {
+            background-color: #FFF2F4;
+            color: var(--pink-dark);
+            border: 1px solid rgba(255, 117, 151, 0.15);
+            text-transform: none;
+            font-size: 0.62rem;
+        }
+
+        .gift-reserve-btn {
+            background-color: var(--pink-dark);
+            color: #FFF;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 8px rgba(255, 117, 151, 0.12);
+        }
+
+        .gift-reserve-btn:hover {
+            background-color: var(--strawberry-red);
+            transform: scale(1.05);
+        }
+
+        .gift-reserve-btn.btn-reserved {
+            background-color: var(--brown-light);
+            color: #FFF;
+            cursor: default;
+            pointer-events: none;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        /* Payment accounts section */
+        .payments-card-box {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: var(--card-r);
+            box-shadow: var(--shadow-medium);
+            border: 3px solid #FFF;
+            padding: clamp(14px, 4vw, 22px);
+            z-index: 10;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .payments-title {
+            font-family: var(--font-title);
+            font-size: 1.15rem;
+            color: var(--pink-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .payments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .payment-item {
+            background-color: var(--cream-light);
+            border: 1px solid rgba(93, 67, 58, 0.05);
+            border-radius: 14px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 0.74rem;
+        }
+
+        .payment-label {
+            font-weight: 700;
+            color: var(--brown-text);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: left;
+        }
+
+        .payment-owner {
+            font-size: 0.62rem;
+            color: var(--brown-light);
+            font-weight: normal;
+        }
+
+        .payment-value-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .payment-number {
+            font-weight: 700;
+            color: var(--brown-text);
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        /* Popup overlay and box for gift reservation */
+        .gift-popup-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(93, 67, 58, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .gift-popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .gift-popup-box {
+            width: 88%;
+            max-width: 360px;
+            background-color: var(--cream);
+            border: 3px solid #FFF;
+            border-radius: 28px;
+            box-shadow: var(--shadow-heavy);
+            padding: 22px 18px;
+            position: relative;
+            transform: scale(0.85);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            border: 1px solid rgba(255, 117, 151, 0.15);
+        }
+
+        .gift-popup-overlay.active .gift-popup-box {
+            transform: scale(1);
+        }
+
+        .gift-popup-close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--brown-light);
+            cursor: pointer;
+        }
+
+        :root {
+            --gold-star: #F5C642;
+        }
+
+        /* Carousel and Quick Nav Styles */
+        .carousel-section {
+            width: 100%;
+            margin-top: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .carousel-title {
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            color: var(--pink-dark);
+            text-align: left;
+            margin-left: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .carousel-container {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            padding: 4px 4px 12px;
+            margin: 0 -4px;
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-card {
+            flex-shrink: 0;
+            width: 145px;
+            background-color: var(--cream-light);
+            border: 1px solid rgba(255, 117, 151, 0.15);
+            border-radius: 20px;
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(93, 67, 58, 0.03);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 117, 151, 0.08);
+            border-color: var(--pink-medium);
+        }
+
+        .carousel-card .gift-item-image {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid rgba(93, 67, 58, 0.04);
+        }
+
+        .carousel-card-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .carousel-card .gift-item-name {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--brown-text);
+            line-height: 1.2;
+            height: 32px;
+            /* Balanced height for 2 lines */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .stars-row {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+        }
+
+        .favorite-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background-color: rgba(245, 198, 66, 0.12);
+            color: #B0850D;
+            border: 1px solid rgba(245, 198, 66, 0.22);
+            font-size: 0.52rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .carousel-card .gift-reserve-btn {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 0.65rem;
+            justify-content: center;
+            border-radius: 10px;
+            margin-top: auto;
+        }
+
+        /* Heartbeat pulsation animation */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 10px rgba(255, 117, 151, 0.05);
+            }
+
+            14% {
+                transform: scale(1.04);
+                box-shadow: 0 6px 14px rgba(255, 117, 151, 0.15);
+            }
+
+            28% {
+                transform: scale(1);
+                box-shadow: 0 4px 10px rgba(255, 117, 151, 0.05);
+            }
+
+            42% {
+                transform: scale(1.04);
+                box-shadow: 0 6px 14px rgba(255, 117, 151, 0.15);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 4px 10px rgba(255, 117, 151, 0.05);
+            }
+        }
+
+        .heartbeat-btn {
+            animation: heartbeat 2.2s infinite ease-in-out;
+            border: 1px solid var(--pink-medium) !important;
+            background-color: var(--pink-pastel) !important;
+            color: var(--pink-dark) !important;
+            box-shadow: 0 4px 10px rgba(255, 117, 151, 0.05);
+            transition: all 0.3s;
+        }
+
+        .heartbeat-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--pink-medium) !important;
+            color: #FFF !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Desktop Gingham Wallpaper Decoration -->
+    <div class="desktop-bg-pattern"></div>
+    <div class="desktop-bg-overlay"></div>
+
+    <!-- Main Mobile Application Viewport Container -->
+    <div class="app-container">
+
+        <!-- Opaque Checkered background -->
+        <div class="checkered-bg-washed"></div>
+
+        <div class="registry-container">
+
+            <!-- Navigation Back Button -->
+            <div class="back-nav-row">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Volver a la Invitación</span>
+                </a>
+            </div>
+
+            <!-- Page Title Block (Legibility Protected) -->
+            <div class="registry-header-card">
+                <div class="header-card-inner">
+                    <h1 class="main-title-tag" style="font-size: 1.8rem; line-height: 1; margin-bottom: 5px;">Lista de
+                        Regalos</h1>
+                    <div class="baby-name-wrap" style="margin-bottom: 2px;">
+                        <div class="baby-name-cursive" style="font-size: 3.2rem; padding: 8px 16px; line-height: 1.45;">
+                            Joyce</div>
+                    </div>
+                    
+                    <!-- Saludo Personalizado para Invitado en Regalos -->
+                    <div id="registryGuestCard" style="display: none; justify-content: center; align-items: center; gap: 6px; margin: 4px auto 10px; font-family: var(--font-title); font-size: 0.8rem; color: var(--brown-text); background: rgba(255, 255, 255, 0.7); padding: 5px 16px; border-radius: 50px; border: 1px dashed var(--pink-dark); max-width: 240px; box-shadow: 0 4px 8px rgba(93,67,58,0.02);">
+                        <i class="fas fa-heart" style="color: var(--pink-dark); font-size: 0.65rem;"></i>
+                        <span>Para: <strong id="registryGuestNameSpan" style="color: var(--strawberry-red);">[Invitado]</strong></span>
+                    </div>
+
+                    <p class="registry-subtitle">Si deseas obsequiar un detalle a la bebé, aquí tienes algunas ideas
+                        organizadas que puedes reservar para evitar que se repitan:</p>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Panel -->
+            <div class="quick-nav-row"
+                style="width: 100%; display: flex; gap: 8px; justify-content: center; margin-top: -4px; margin-bottom: 2px; z-index: 5;">
+                <button class="quick-nav-btn heartbeat-btn" onclick="openCashModal()"
+                    style="flex: 1; max-width: 240px; font-family: var(--font-body); font-weight: 700; font-size: 0.72rem; padding: 10px 14px; border-radius: 14px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fas fa-money-bill-wave" style="font-size: 0.85rem;"></i>
+                    <span>Regalo en Efectivo</span>
+                </button>
+            </div>
+
+            <!-- CAROUSEL DE REGALOS MÁS DESEADOS -->
+            <div class="carousel-section">
+                <h2 class="carousel-title">
+                    <i class="fas fa-star" style="color: var(--gold-star);"></i>
+                    <span>Regalos más Deseados</span>
+                </h2>
+                <div class="carousel-container">
+
+                    <!-- Colecho (5 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="des-colecho">
+                        <span class="favorite-badge">5 Estrellas</span>
+                        <img class="gift-item-image" src="img/Cuna Colecho.jpg" alt="Cuna Colecho">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Cuna Colecho</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('des-colecho', 'Cuna Colecho')">Reservar</button>
+                    </div>
+
+                    <!-- Coche para bebé (5 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="pas-coche">
+                        <span class="favorite-badge">5 Estrellas</span>
+                        <img class="gift-item-image" src="img/Coche para bebé.webp" alt="Coche para bebé">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Coche para bebé</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('pas-coche', 'Coche para bebé')">Reservar</button>
+                    </div>
+
+                    <!-- Carrito organizador (4 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="org-carrito">
+                        <span class="favorite-badge">4 Estrellas</span>
+                        <img class="gift-item-image" src="img/Carrito organizador de 3 niveles.jpg"
+                            alt="Carrito organizador">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Carrito organizador de 3 niveles</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('org-carrito', 'Carrito organizador de 3 niveles')">Reservar</button>
+                    </div>
+
+                    <!-- Ramo de ropita (4 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="ropa-ramo">
+                        <span class="favorite-badge">4 Estrellas</span>
+                        <img class="gift-item-image" src="img/Ramo de ropita de bebé.jpg" alt="Ramo de ropita de bebé">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Ramo de ropita de bebé</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('ropa-ramo', 'Ramo de ropita de bebé')">Reservar</button>
+                    </div>
+
+                    <!-- Pañalera (4 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="pas-mochila">
+                        <span class="favorite-badge">4 Estrellas</span>
+                        <img class="gift-item-image" src="img/Mochila pañalera.jpg" alt="Mochila pañalera">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Mochila pañalera</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('pas-mochila', 'Mochila pañalera')">Reservar</button>
+                    </div>
+
+                    <!-- Camisón de lactancia (3 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="opc-camison">
+                        <span class="favorite-badge">3 Estrellas</span>
+                        <img class="gift-item-image" src="img/Camisón de lactancia y bata para la mamá.webp"
+                            alt="Camisón de lactancia">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Camisón de lactancia y bata para la mamá</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('opc-camison', 'Camisón de lactancia y bata para la mamá')">Reservar</button>
+                    </div>
+
+                    <!-- Cojín de lactancia (3 stars) -->
+                    <div class="carousel-card gift-item-card" data-gift-id="ali-cojin">
+                        <span class="favorite-badge">3 Estrellas</span>
+                        <img class="gift-item-image" src="img/Cojín de lactancia.webp" alt="Cojín de lactancia">
+                        <div class="carousel-card-details">
+                            <span class="gift-item-name">Cojín de lactancia</span>
+                            <div class="stars-row" style="color: var(--gold-star);">⭐⭐⭐</div>
+                            <span class="gift-status-badge available"
+                                style="font-size: 0.52rem; padding: 1px 6px;">Disponible</span>
+                        </div>
+                        <button class="gift-reserve-btn"
+                            onclick="openReservationModal('ali-cojin', 'Cojín de lactancia')">Reservar</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Sticky Horizontal scroll categories -->
+            <div class="categories-filter-bar">
+                <div class="category-chip active" onclick="scrollToCategory('ropa', this)"><i class="fas fa-tshirt"></i>
+                    Ropa</div>
+                <div class="category-chip" onclick="scrollToCategory('alimentacion', this)"><i
+                        class="fas fa-baby-carriage"></i> Alimentación</div>
+                <div class="category-chip" onclick="scrollToCategory('higiene', this)"><i class="fas fa-bath"></i>
+                    Higiene</div>
+                <div class="category-chip" onclick="scrollToCategory('descanso', this)"><i class="fas fa-bed"></i>
+                    Descanso</div>
+                <div class="category-chip" onclick="scrollToCategory('paseo', this)"><i class="fas fa-car-side"></i>
+                    Paseo</div>
+                <div class="category-chip" onclick="scrollToCategory('organizacion', this)"><i
+                        class="fas fa-boxes-packing"></i> Organización</div>
+                <div class="category-chip" onclick="scrollToCategory('opcionales', this)"><i class="fas fa-gift"></i>
+                    Opcionales</div>
+            </div>
+
+            <!-- REGISTRY ITEMS CONTAINER -->
+            <div class="card-wrapper" style="width: 100%; display:flex; flex-direction:column; gap:20px;">
+                <div class="regalos-card-box" style="padding: clamp(14px, 4vw, 20px); width: 100%;">
+                    <div class="card-border-frame"></div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- ROPA -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-ropa">
+                        <div class="registry-section-title">
+                            <i class="fas fa-tshirt"></i>
+                            <span>Ropa de Bebé</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="ropa-ramo">
+                                <img class="gift-item-image" src="img/Ramo de ropita de bebé.jpg" alt="Ramo de ropita">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Ramo de ropita de bebé</span>
+                                    <span class="gift-item-desc">1 a 2 enterizos, 1 par de medias, gorro y manoplas de
+                                        algodón.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ropa-ramo', 'Ramo de ropita de bebé')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ropa-bodys">
+                                <img class="gift-item-image" src="img/Bodys cruzados en algodon.jpg" alt="Bodys">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Pack de 2 bodies cruzados en algodón</span>
+                                    <span class="gift-item-desc">Mamelucos de algodón indispensables.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ropa-bodys', 'Pack de 2 bodies cruzados en algodón')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ropa-pijamas">
+                                <img class="gift-item-image" src="img/Pijamas enterizos.jpg" alt="Pijamas">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Pijamas enterizos</span>
+                                    <span class="gift-item-desc">Mamelucos abrigadores con pies cubiertos.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ropa-pijamas', 'Pijamas enterizos')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ropa-conjuntos">
+                                <img class="gift-item-image" src="img/Conjuntos (polo y pantalón).webp" alt="Conjuntos">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Conjuntos (polo y pantalón)</span>
+                                    <span class="gift-item-desc">Conjuntos coordinados de algodón.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ropa-conjuntos', 'Conjuntos (polo y pantalón)')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ropa-panales">
+                                <img class="gift-item-image" src="img/Pañales biodegradables.webp"
+                                    alt="Pañales biodegradables">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Pañales biodegradables</span>
+                                    <span class="gift-item-desc">Pañales ecológicos y suaves con la piel.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ropa-panales', 'Pañales biodegradables')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- ALIMENTACIÓN -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-alimentacion" style="margin-top: 25px;">
+                        <div class="registry-section-title">
+                            <i class="fas fa-baby-carriage"></i>
+                            <span>Alimentación</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="ali-cojin">
+                                <img class="gift-item-image" src="img/Cojín de lactancia.webp" alt="Cojín de lactancia">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Cojín de lactancia</span>
+                                    <span class="gift-item-desc">Almohada ergonómica para comodidad de mamá y
+                                        bebé.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ali-cojin', 'Cojín de lactancia')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ali-biberon">
+                                <img class="gift-item-image" src="img/Biberón anticólicos.webp" alt="Biberón">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Biberón anticólicos</span>
+                                    <span class="gift-item-desc">Biberón especial con válvula para evitar gases.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ali-biberon', 'Biberón anticólicos')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ali-set">
+                                <img class="gift-item-image" src="img/Set de alimentación de silicona básico.jfif"
+                                    alt="Set de silicona">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Set de alimentación de silicona básico</span>
+                                    <span class="gift-item-desc">Plato, tazón y cuchara de silicona suave grado
+                                        alimenticio.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ali-set', 'Set de alimentación de silicona')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="ali-silla">
+                                <img class="gift-item-image" src="img/Silla de comer para bebé.png"
+                                    alt="Silla de comer">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Silla de comer para bebé</span>
+                                    <span class="gift-item-desc">Silla alta segura y fácil de limpiar para las
+                                        comidas.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('ali-silla', 'Silla de comer')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- HIGIENE Y CUIDADO -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-higiene" style="margin-top: 25px;">
+                        <div class="registry-section-title">
+                            <i class="fas fa-bath"></i>
+                            <span>Higiene y Cuidado</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="hig-bano">
+                                <img class="gift-item-image" src="img/Set de baño completo.jpg" alt="Set de baño">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Set de baño completo</span>
+                                    <span class="gift-item-desc">Tina ergonómica con accesorios de aseo inicial.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-bano', 'Set de baño completo')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="hig-toalla">
+                                <img class="gift-item-image" src="img/Toalla con capucha.webp" alt="Toalla con capucha">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Toalla con capucha</span>
+                                    <span class="gift-item-desc">Toalla de felpa absorbente y suave.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-toalla', 'Toalla con capucha')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="hig-kit">
+                                <img class="gift-item-image" src="img/Kit de aseo para bebé.webp" alt="Kit de aseo">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Kit de aseo para bebé</span>
+                                    <span class="gift-item-desc">Cepillo, peine, cortaúñas y accesorios de
+                                        cuidado.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-kit', 'Kit de aseo para bebé')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="hig-termo">
+                                <img class="gift-item-image" src="img/Termómetro digital.webp" alt="Termómetro">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Termómetro digital</span>
+                                    <span class="gift-item-desc">Medición rápida y precisa para la salud de la
+                                        bebé.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-termo', 'Termómetro digital')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="hig-perfume">
+                                <img class="gift-item-image" src="img/Perfume para bebés.webp" alt="Perfume">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Perfume para bebés</span>
+                                    <span class="gift-item-desc">Fragancia suave y libre de alcohol.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-perfume', 'Perfume para bebés')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="hig-panales">
+                                <img class="gift-item-image" src="img/Pañales desechables.webp"
+                                    alt="Pañales desechables">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Pañales desechables</span>
+                                    <span class="gift-item-desc">Talla: Recién Nacido (RN) para los primeros
+                                        días.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-panales', 'Pañales desechables RN')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="hig-lima">
+                                <img class="gift-item-image" src="img/Lima eléctrica para bebés.webp"
+                                    alt="Lima eléctrica">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Lima eléctrica para bebés</span>
+                                    <span class="gift-item-desc">Lima de uñas segura, ultrasilenciosa y con
+                                        luces.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('hig-lima', 'Lima eléctrica')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- DESCANSO -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-descanso" style="margin-top: 25px;">
+                        <div class="registry-section-title">
+                            <i class="fas fa-bed"></i>
+                            <span>Descanso y Dormitorio</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="des-colecho">
+                                <img class="gift-item-image" src="img/Cuna Colecho.jpg" alt="Colecho">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Cuna Colecho</span>
+                                    <span class="gift-item-desc">Cuna lateral que se acopla a la cama de los
+                                        padres.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('des-colecho', 'Cuna Colecho')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="des-protector">
+                                <img class="gift-item-image" src="img/Protector impermeable para colchón.jpg"
+                                    alt="Protector de colchón">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Protector impermeable para colchón</span>
+                                    <span class="gift-item-desc">Funda impermeable protectora para cuna.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('des-protector', 'Protector de colchón')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="des-mantas">
+                                <img class="gift-item-image" src="img/2 mantas o cobertores abrigadores.webp"
+                                    alt="Mantas">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">2 mantas o cobertores abrigadores</span>
+                                    <span class="gift-item-desc">Mantas suaves de polar, lana o algodón grueso.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('des-mantas', '2 Mantas abrigadoras')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="des-mecedora">
+                                <img class="gift-item-image" src="img/Mecedora.webp" alt="Mecedora">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Mecedora</span>
+                                    <span class="gift-item-desc">Silla mecedora o bouncer cómodo para calmar a la
+                                        bebé.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('des-mecedora', 'Mecedora')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="des-mosquitero">
+                                <img class="gift-item-image" src="img/Mosquitero para bebés.webp" alt="Mosquitero">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Mosquitero para bebés</span>
+                                    <span class="gift-item-desc">Malla protectora contra insectos para cuna o
+                                        coche.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('des-mosquitero', 'Mosquitero para bebés')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="des-alfombra">
+                                <img class="gift-item-image" src="img/Alfombra antigolpes reversible y plegable.webp"
+                                    alt="Alfombra">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Alfombra antigolpes reversible y plegable</span>
+                                    <span class="gift-item-desc">Tapete acolchado para estimulación y juegos.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('des-alfombra', 'Alfombra antigolpes')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- PASEO Y TRANSPORTE -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-paseo" style="margin-top: 25px;">
+                        <div class="registry-section-title">
+                            <i class="fas fa-car-side"></i>
+                            <span>Paseo y Transporte</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="pas-coche">
+                                <img class="gift-item-image" src="img/Coche para bebé.webp" alt="Coche">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Coche para bebé</span>
+                                    <span class="gift-item-desc">Cochecito plegable, cómodo y con capota.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('pas-coche', 'Coche para bebé')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="pas-mochila">
+                                <img class="gift-item-image" src="img/Mochila pañalera.jpg" alt="Mochila pañalera">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Mochila pañalera</span>
+                                    <span class="gift-item-desc">Mochila espaciosa con compartimentos térmicos.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('pas-mochila', 'Mochila pañalera')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="pas-canguro">
+                                <img class="gift-item-image" src="img/Canguro o portabebé.jfif" alt="Portabebé">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Canguro o portabebé</span>
+                                    <span class="gift-item-desc">Portabebé ergonómico para pasear con manos
+                                        libres.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('pas-canguro', 'Canguro portabebé')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- ORGANIZACIÓN -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-organizacion" style="margin-top: 25px;">
+                        <div class="registry-section-title">
+                            <i class="fas fa-boxes-packing"></i>
+                            <span>Organización</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="org-cambiador">
+                                <img class="gift-item-image" src="img/Cambiador portátil.jpg" alt="Cambiador portátil">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Cambiador portátil</span>
+                                    <span class="gift-item-desc">Alfombrilla acolchada e impermeable para cambiar
+                                        pañales en el camino.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('org-cambiador', 'Cambiador portátil')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="org-carrito">
+                                <img class="gift-item-image" src="img/Carrito organizador de 3 niveles.jpg"
+                                    alt="Carrito">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Carrito organizador de 3 niveles</span>
+                                    <span class="gift-item-desc">Carrito con ruedas para artículos de higiene.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('org-carrito', 'Carrito organizador')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="org-caddy">
+                                <img class="gift-item-image" src="img/Organizadores para pañales.jpg"
+                                    alt="Organizador de pañales">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Organizadores para pañales</span>
+                                    <span class="gift-item-desc">Cesta compartimentada para pañales y cremas.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('org-caddy', 'Organizador de pañales')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="org-canasta">
+                                <img class="gift-item-image" src="img/Canasta para ropa sucia.jpg" alt="Canasta ropa">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Canasta para ropa sucia</span>
+                                    <span class="gift-item-desc">Cesto de tela o mimbre con diseño infantil.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('org-canasta', 'Canasta para ropa sucia')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="org-cajas">
+                                <img class="gift-item-image" src="img/Cajas organizadoras.webp"
+                                    alt="Cajas organizadoras">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Cajas organizadoras</span>
+                                    <span class="gift-item-desc">Cajas de tela o plástico para juguetes y ropa.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('org-cajas', 'Cajas organizadoras')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ──────────────────────────────────────── -->
+                    <!-- REGALOS OPCIONALES -->
+                    <!-- ──────────────────────────────────────── -->
+                    <div class="registry-section" id="cat-opcionales" style="margin-top: 25px;">
+                        <div class="registry-section-title">
+                            <i class="fas fa-gift"></i>
+                            <span>Regalos Opcionales</span>
+                        </div>
+                        <div class="gift-items-list">
+
+                            <div class="gift-item-card" data-gift-id="opc-album">
+                                <img class="gift-item-image" src="img/Álbum del bebé.avif" alt="Álbum">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Álbum del bebé</span>
+                                    <span class="gift-item-desc">Libro de recuerdos para fotos e hitos del primer
+                                        año.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('opc-album', 'Álbum del bebé')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="opc-luz">
+                                <img class="gift-item-image" src="img/Luz nocturna.jpg" alt="Luz nocturna">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Luz nocturna</span>
+                                    <span class="gift-item-desc">Lámpara quitamiedos de luz tenue para lactancia
+                                        nocturna.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('opc-luz', 'Luz nocturna')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="opc-camison">
+                                <img class="gift-item-image" src="img/Camisón de lactancia y bata para la mamá.webp"
+                                    alt="Bata">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Camisón de lactancia y bata para la mamá</span>
+                                    <span class="gift-item-desc">Conjunto cómodo y práctico para la etapa
+                                        postparto.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('opc-camison', 'Camisón de lactancia y bata para la mamá')">Reservar</button>
+                            </div>
+
+                            <div class="gift-item-card" data-gift-id="opc-pantuflas">
+                                <img class="gift-item-image" src="img/Pantuflas para mamá.jpg" alt="Pantuflas">
+                                <div class="gift-item-details">
+                                    <span class="gift-item-name">Pantuflas para mamá</span>
+                                    <span class="gift-item-desc">Zapatillas de descanso acolchadas y cómodas.</span>
+                                    <span class="gift-status-badge available">Disponible</span>
+                                </div>
+                                <button class="gift-reserve-btn"
+                                    onclick="openReservationModal('opc-pantuflas', 'Pantuflas para mamá')">Reservar</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Spacer at bottom -->
+            <div style="height: 30px;"></div>
+
+        </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── -->
+    <!-- Zoom Image Fullscreen Overlay -->
+    <div class="zoom-overlay" id="zoomOverlay" onclick="closeZoomImage()"
+        style="position: fixed; inset: 0; background-color: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+        <button
+            style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #FFF; font-size: 2.2rem; cursor: pointer;"
+            onclick="closeZoomImage()">&times;</button>
+        <img id="zoomedImg" src="" alt="Vista ampliada"
+            style="max-width: 92%; max-height: 82%; object-fit: contain; border-radius: 12px; transform: scale(0.9); transition: transform 0.3s;">
+    </div>
+
+    <!-- ──────────────────────────────────────── -->
+    <!-- MODAL POPUP PARA RESERVAR REGALO -->
+    <!-- ──────────────────────────────────────── -->
+    <div class="gift-popup-overlay" id="giftPopup">
+        <div class="gift-popup-box" style="padding-top: 26px;">
+            <button class="gift-popup-close" id="closeGiftPopup">&times;</button>
+            <div class="pill-container"
+                style="background-color:#FFF2F4; border-color:rgba(255, 117, 151, 0.2); color:var(--pink-dark); margin-bottom:12px; margin-left: auto; margin-right: auto; max-width: 140px;">
+                <i class="fas fa-gift"></i>
+                <span>Reservar Regalo</span>
+            </div>
+
+            <h3 class="popup-title" id="popupGiftName"
+                style="font-size:1.15rem; color:var(--brown-text); margin-bottom:8px; line-height: 1.2;">Nombre del
+                Regalo</h3>
+
+            <!-- Reference Image in Popup -->
+            <div class="popup-image-wrapper"
+                style="position: relative; margin-bottom: 8px; border-radius: 12px; overflow: hidden; background-color: var(--pink-pastel); border: 1px solid rgba(93,67,58,0.06); max-height: 140px; display: flex; align-items: center; justify-content: center;">
+                <img id="popupGiftImg" src="" alt="Imagen de referencia"
+                    style="width: auto; height: 100%; max-height: 140px; object-fit: contain; cursor: zoom-in;"
+                    onclick="zoomImage()">
+            </div>
+            <p style="font-size: 0.65rem; color: var(--pink-dark); font-weight: 700; margin-top: -2px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;"
+                onclick="zoomImage()">
+                <i class="fas fa-search-plus"></i> Toca para pantalla completa / zoom
+            </p>
+
+            <!-- Download image button -->
+            <a id="downloadImgBtn" href="" download="" class="invitation-btn"
+                style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: var(--cream-light); color: var(--brown-text); border: 1px solid rgba(93,67,58,0.15); margin-bottom: 14px; font-size: 0.72rem; text-decoration: none; padding: 8px 12px; border-radius: 12px; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.3s;">
+                <i class="fas fa-download"></i> Descargar imagen de referencia
+            </a>
+
+            <form id="giftReserveForm" onsubmit="event.preventDefault(); submitGiftReservation();"
+                style="text-align:left; display:flex; flex-direction:column; gap:12px;">
+                <input type="hidden" id="reserveGiftId">
+                <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                    <label for="reserveGuestName"
+                        style="font-size:0.68rem; font-weight:700; color:var(--brown-light); text-transform:uppercase;">Tu
+                        Nombre y Apellido</label>
+                    <input type="text" id="reserveGuestName" placeholder="Ej. María Gómez" required
+                        style="width:100%; padding:10px; border-radius:12px; border:1px solid rgba(93,67,58,0.15); font-size:0.82rem;">
+                </div>
+
+                <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                    <label for="reserveGuestPhone"
+                        style="font-size:0.68rem; font-weight:700; color:var(--brown-light); text-transform:uppercase;">Tu
+                        Teléfono / Celular</label>
+                    <input type="tel" id="reserveGuestPhone" placeholder="Ej. 987654321" required
+                        style="width:100%; padding:10px; border-radius:12px; border:1px solid rgba(93,67,58,0.15); font-size:0.82rem;">
+                </div>
+
+                <button type="submit" class="invitation-btn primary" style="width:100%; margin-top:6px;">
+                    <i class="fas fa-check"></i> Reservar Detalle
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ──────────────────────────────────────── -->
+    <!-- MODAL POPUP PARA REGALO EN EFECTIVO -->
+    <!-- ──────────────────────────────────────── -->
+    <div class="gift-popup-overlay" id="cashPopup">
+        <div class="gift-popup-box" style="padding-top: 26px; max-width: 360px;">
+            <button class="gift-popup-close" id="closeCashPopup">&times;</button>
+
+            <!-- PESTAÑA A: Datos de Depósito -->
+            <div id="cashAccountsScreen">
+                <div class="pill-container"
+                    style="background-color:#FFF2F4; border-color:rgba(255, 117, 151, 0.2); color:var(--pink-dark); margin-bottom:12px; margin-left: auto; margin-right: auto; max-width: 150px;">
+                    <i class="fas fa-wallet"></i>
+                    <span>Regalo en Efectivo</span>
+                </div>
+                <h3 class="popup-title" style="font-size:1.15rem; color:var(--brown-text); margin-bottom:8px;">Datos de
+                    Depósito</h3>
+                <p
+                    style="font-size:0.72rem; color:var(--brown-light); line-height:1.45; margin-bottom:15px; max-width:280px; margin-left:auto; margin-right:auto; text-align: center;">
+                    Copia las cuentas bancarias o monederos digitales de Joyce para realizar tu presente en efectivo:
+                </p>
+
+                <!-- Accounts list inside popup -->
+                <div class="payments-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+                    <div class="payment-item"
+                        style="display:flex; justify-content:space-between; align-items:center; background:rgba(93,67,58,0.03); padding:8px 12px; border-radius:12px; border:1px solid rgba(93,67,58,0.05); text-align: left;">
+                        <div style="display:flex; flex-direction:column; align-items:flex-start; font-size:0.72rem;">
+                            <span style="font-weight:700; color:var(--pink-dark);">PLIN</span>
+                            <span style="font-size:0.62rem; color:var(--brown-light);">Cely Maytan</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span
+                                style="font-family:monospace; font-weight:700; font-size:0.78rem; color: var(--brown-text);">955
+                                055 272</span>
+                            <button class="copy-btn" onclick="copyText('955055272', this)"
+                                style="background:none; border:none; color:var(--pink-dark); cursor:pointer;"><i
+                                    class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="payment-item"
+                        style="display:flex; justify-content:space-between; align-items:center; background:rgba(93,67,58,0.03); padding:8px 12px; border-radius:12px; border:1px solid rgba(93,67,58,0.05); text-align: left;">
+                        <div style="display:flex; flex-direction:column; align-items:flex-start; font-size:0.72rem;">
+                            <span style="font-weight:700; color:var(--pink-dark);">YAPE</span>
+                            <span style="font-size:0.62rem; color:var(--brown-light);">Joseph Ocadio</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span
+                                style="font-family:monospace; font-weight:700; font-size:0.78rem; color: var(--brown-text);">952
+                                644 193</span>
+                            <button class="copy-btn" onclick="copyText('952644193', this)"
+                                style="background:none; border:none; color:var(--pink-dark); cursor:pointer;"><i
+                                    class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="payment-item"
+                        style="display:flex; justify-content:space-between; align-items:center; background:rgba(93,67,58,0.03); padding:8px 12px; border-radius:12px; border:1px solid rgba(93,67,58,0.05); text-align: left;">
+                        <div style="display:flex; flex-direction:column; align-items:flex-start; font-size:0.72rem;">
+                            <span style="font-weight:700; color:var(--pink-dark);">Interbank</span>
+                            <span style="font-size:0.62rem; color:var(--brown-light);">Cely Maytan</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span
+                                style="font-family:monospace; font-weight:700; font-size:0.75rem; color: var(--brown-text);">2003155843123</span>
+                            <button class="copy-btn" onclick="copyText('2003155843123', this)"
+                                style="background:none; border:none; color:var(--pink-dark); cursor:pointer;"><i
+                                    class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="payment-item"
+                        style="display:flex; justify-content:space-between; align-items:center; background:rgba(93,67,58,0.03); padding:8px 12px; border-radius:12px; border:1px solid rgba(93,67,58,0.05); text-align: left;">
+                        <div style="display:flex; flex-direction:column; align-items:flex-start; font-size:0.72rem;">
+                            <span style="font-weight:700; color:var(--pink-dark);">BCP</span>
+                            <span style="font-size:0.62rem; color:var(--brown-light);">Joseph Ocadio</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span
+                                style="font-family:monospace; font-weight:700; font-size:0.75rem; color: var(--brown-text);">19101096021091</span>
+                            <button class="copy-btn" onclick="copyText('19101096021091', this)"
+                                style="background:none; border:none; color:var(--pink-dark); cursor:pointer;"><i
+                                    class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="invitation-btn primary" onclick="showCashFormScreen()" style="width:100%;">
+                    <i class="fas fa-file-invoice-dollar"></i> Enviar captura de pantalla
+                </button>
+            </div>
+
+            <!-- PESTAÑA B: Formulario de Registro -->
+            <div id="cashFormScreen" style="display:none; text-align:left;">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:12px; cursor:pointer; color:var(--pink-dark); font-size:0.72rem; font-weight:700;"
+                    onclick="showCashAccountsScreen()">
+                    <i class="fas fa-chevron-left"></i> Volver a Datos de Depósito
+                </div>
+                <h3 class="popup-title"
+                    style="font-size:1.1rem; color:var(--brown-text); margin-bottom:12px; text-align:center;">Registrar
+                    Transferencia</h3>
+
+                <form id="cashRegisterForm" onsubmit="event.preventDefault(); submitCashGift();"
+                    style="display:flex; flex-direction:column; gap:10px;">
+                    <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                        <label for="cashName"
+                            style="font-size:0.65rem; font-weight:700; color:var(--brown-light); text-transform:uppercase;">Tu
+                            Nombre y Apellido</label>
+                        <input type="text" id="cashName" placeholder="Ej. María Gómez" required
+                            style="width:100%; padding:9px; border-radius:12px; border:1px solid rgba(93,67,58,0.15); font-size:0.8rem;">
+                    </div>
+                    <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                        <label for="cashPhone"
+                            style="font-size:0.65rem; font-weight:700; color:var(--brown-light); text-transform:uppercase;">Tu
+                            Teléfono / Celular</label>
+                        <input type="tel" id="cashPhone" placeholder="Ej. 987654321" required
+                            style="width:100%; padding:9px; border-radius:12px; border:1px solid rgba(93,67,58,0.15); font-size:0.8rem;">
+                    </div>
+                    <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                        <label for="cashAmount"
+                            style="font-size:0.65rem; font-weight:700; color:var(--brown-light); text-transform:uppercase;">Monto
+                            de Regalo (S/.)</label>
+                        <input type="number" id="cashAmount" placeholder="Ej. 50" required
+                            style="width:100%; padding:9px; border-radius:12px; border:1px solid rgba(93,67,58,0.15); font-size:0.8rem;">
+                    </div>
+                    <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                        <label
+                            style="font-size:0.65rem; font-weight:700; color:var(--brown-light); text-transform:uppercase;">Subir
+                            Captura de Transferencia</label>
+                        <input type="file" id="cashFile" accept="image/*" style="display:none;"
+                            onchange="previewCashFile(this)">
+
+                        <div id="cashFileTrigger" onclick="document.getElementById('cashFile').click();"
+                            style="border: 2px dashed rgba(93,67,58,0.2); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; background: rgba(93,67,58,0.02); transition: all 0.3s;">
+                            <i class="fas fa-camera"
+                                style="font-size: 1.3rem; color: var(--pink-dark); margin-bottom: 4px;"></i>
+                            <p style="font-size: 0.65rem; color: var(--brown-light); font-weight: 700;">Toca para
+                                seleccionar o tomar foto</p>
+                        </div>
+
+                        <!-- Preview container -->
+                        <div id="cashPreviewContainer"
+                            style="display:none; position:relative; margin-top:6px; border-radius:12px; overflow:hidden; max-height:100px; border:1px solid rgba(93,67,58,0.15);">
+                            <img id="cashPreviewImg" src=""
+                                style="width:100%; height:100px; object-fit:contain; background:#fdfdfd;">
+                            <button type="button" onclick="clearCashPreview()"
+                                style="position:absolute; top:4px; right:4px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,0.6); border:none; color:#FFF; font-size:0.75rem; display:flex; align-items:center; justify-content:center; cursor:pointer;">&times;</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="invitation-btn primary" id="btnSubmitCash"
+                        style="width:100%; margin-top:6px;">
+                        <i class="fas fa-check"></i> Enviar Registro
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Actions -->
+    <script>
+        // URL de tu Google Sheet Web App (Apps Script)
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzMeBR5WYT9X1cRspq7SrcXjyFGbABT2tzk5ON4kMhFucZbamWx5k7H7SRsq1-V1VNeSQ/exec";
+
+        // Navigation scrolling helper
+        function scrollToCategory(catId, chipElement) {
+            // Update active states
+            const chips = document.querySelectorAll('.category-chip');
+            chips.forEach(c => c.classList.remove('active'));
+            chipElement.classList.add('active');
+
+            // Scroll to element
+            const element = document.getElementById('cat-' + catId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Popup DOM elements
+        const giftPopup = document.getElementById('giftPopup');
+        const closeGiftPopup = document.getElementById('closeGiftPopup');
+        const giftReserveForm = document.getElementById('giftReserveForm');
+        const popupGiftName = document.getElementById('popupGiftName');
+        const reserveGiftIdInput = document.getElementById('reserveGiftId');
+        const reserveGuestNameInput = document.getElementById('reserveGuestName');
+        const reserveGuestPhoneInput = document.getElementById('reserveGuestPhone');
+
+        function openReservationModal(giftId, giftName) {
+            popupGiftName.innerText = giftName;
+            reserveGiftIdInput.value = giftId;
+            
+            // Auto-rellenar nombre si existe en memoria local
+            const storedName = localStorage.getItem('guest_name') || "";
+            reserveGuestNameInput.value = storedName;
+            if (reserveGuestPhoneInput) reserveGuestPhoneInput.value = "";
+
+            // Cargar imagen de referencia desde la tarjeta correspondiente del DOM
+            const card = document.querySelector(`.gift-item-card[data-gift-id="${giftId}"]`);
+            const popupGiftImg = document.getElementById('popupGiftImg');
+            const downloadImgBtn = document.getElementById('downloadImgBtn');
+
+            if (card) {
+                const img = card.querySelector('.gift-item-image');
+                if (img) {
+                    popupGiftImg.src = img.src;
+                    popupGiftImg.style.display = 'block';
+
+                    // Configurar botón de descarga
+                    downloadImgBtn.href = img.src;
+                    downloadImgBtn.download = `Referencia_${giftName.replace(/\s+/g, '_')}`;
+                    downloadImgBtn.style.display = 'inline-flex';
+                }
+            }
+
+            giftPopup.classList.add('active');
+        }
+
+        function closeReservationModal() {
+            giftPopup.classList.remove('active');
+        }
+
+        closeGiftPopup.addEventListener('click', closeReservationModal);
+        giftPopup.addEventListener('click', (e) => {
+            if (e.target === giftPopup) closeReservationModal();
+        });
+
+        // Zoom Fullscreen Image actions
+        window.zoomImage = function () {
+            const popupGiftImg = document.getElementById('popupGiftImg');
+            if (popupGiftImg && popupGiftImg.src) {
+                const zoomOverlay = document.getElementById('zoomOverlay');
+                const zoomedImg = document.getElementById('zoomedImg');
+                zoomedImg.src = popupGiftImg.src;
+                zoomOverlay.style.display = 'flex';
+                setTimeout(() => {
+                    zoomOverlay.style.opacity = '1';
+                    zoomOverlay.style.pointerEvents = 'all';
+                    zoomedImg.style.transform = 'scale(1)';
+                }, 10);
+            }
+        };
+
+        window.closeZoomImage = function () {
+            const zoomOverlay = document.getElementById('zoomOverlay');
+            const zoomedImg = document.getElementById('zoomedImg');
+            zoomOverlay.style.opacity = '0';
+            zoomOverlay.style.pointerEvents = 'none';
+            zoomedImg.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                zoomOverlay.style.display = 'none';
+            }, 300);
+        };
+
+        // Submit Gift Reservation
+        window.submitGiftReservation = function () {
+            const giftId = reserveGiftIdInput.value;
+            const guestName = reserveGuestNameInput.value.trim();
+            const guestPhone = reserveGuestPhoneInput ? reserveGuestPhoneInput.value.trim() : "";
+            const friendlyGiftName = popupGiftName.innerText;
+
+            if (!guestName || !guestPhone) {
+                alert("Por favor ingresa tu nombre y número de teléfono.");
+                return;
+            }
+
+            // Guardar localmente inmediato (de respaldo)
+            try {
+                let localReservations = JSON.parse(localStorage.getItem('reserved_gifts') || '{}');
+                localReservations[giftId] = guestName;
+                localStorage.setItem('reserved_gifts', JSON.stringify(localReservations));
+            } catch (e) {
+                console.error("Local storage reservation failed:", e);
+            }
+
+            // Marcar visualmente de inmediato
+            updateGiftStatusOnUI(giftId, guestName);
+            closeReservationModal();
+
+            // Sincronizar con Google Sheets
+            if (GOOGLE_SHEET_URL) {
+                fetch(GOOGLE_SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'reserve_gift',
+                        giftId: giftId,
+                        giftName: friendlyGiftName,
+                        reservedBy: guestName,
+                        phone: guestPhone
+                    })
+                })
+                    .then(() => console.log("Reserva registrada con éxito en Sheets"))
+                    .catch(err => console.error("Error al registrar reserva en la nube:", err));
+            }
+        };
+
+        // UI status visual modifier
+        function updateGiftStatusOnUI(giftId, reservedBy) {
+            const cards = document.querySelectorAll(`.gift-item-card[data-gift-id="${giftId}"]`);
+            cards.forEach(card => {
+                // Change status badge
+                const badge = card.querySelector('.gift-status-badge');
+                if (badge) {
+                    badge.className = 'gift-status-badge reserved';
+                    badge.innerHTML = `<i class="fas fa-heart" style="color:var(--pink-dark); margin-right:4px;"></i> Reservado por ${reservedBy}`;
+                }
+
+                // Change button state
+                const btn = card.querySelector('.gift-reserve-btn');
+                if (btn) {
+                    btn.className = 'gift-reserve-btn btn-reserved';
+                    btn.innerHTML = '<i class="fas fa-check"></i> Reservado';
+                    btn.onclick = null;
+                }
+            });
+        }
+
+        // Copy Account/Phone Clipboard utility
+        window.copyText = function (text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> Copiado';
+                btnElement.style.backgroundColor = 'var(--green-leaf)';
+                btnElement.style.color = '#FFF';
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.style.backgroundColor = '';
+                    btnElement.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
+        };
+
+        // Load current reservations on page display
+        function syncReservations() {
+            // 1. Cargar lo que tengamos localmente de forma inmediata (carga rápida)
+            try {
+                const localReservations = JSON.parse(localStorage.getItem('reserved_gifts') || '{}');
+                for (const giftId in localReservations) {
+                    updateGiftStatusOnUI(giftId, localReservations[giftId]);
+                }
+            } catch (e) { }
+
+            // 2. Cargar en tiempo real desde Google Sheets (la verdad absoluta)
+            if (GOOGLE_SHEET_URL) {
+                fetch(GOOGLE_SHEET_URL)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && Array.isArray(data)) {
+                            // Limpiar primero el estado visual de TODOS los regalos antes de aplicar las confirmadas de Sheets
+                            const allCards = document.querySelectorAll('.gift-item-card');
+                            allCards.forEach(card => {
+                                const badge = card.querySelector('.gift-status-badge');
+                                if (badge) {
+                                    badge.className = 'gift-status-badge available';
+                                    badge.innerHTML = 'Disponible';
+                                }
+                                const btn = card.querySelector('.gift-reserve-btn');
+                                if (btn) {
+                                    btn.className = 'gift-reserve-btn';
+                                    btn.innerHTML = 'Reservar';
+                                    const giftId = card.getAttribute('data-gift-id');
+                                    const giftName = card.querySelector('.gift-item-name').innerText;
+                                    btn.onclick = () => openReservationModal(giftId, giftName);
+                                }
+                            });
+
+                            // Re-aplicar y guardar solo las activas que vienen de Sheets
+                            let activeReservations = {};
+                            data.forEach(item => {
+                                updateGiftStatusOnUI(item.id, item.name);
+                                activeReservations[item.id] = item.name;
+                            });
+
+                            // Actualizar la memoria local para que coincida exactamente con la nube
+                            localStorage.setItem('reserved_gifts', JSON.stringify(activeReservations));
+                        }
+                    })
+                    .catch(err => console.warn("No se pudieron descargar las reservas en línea (esperable si no se ha configurado CORS o la URL es de pruebas):", err));
+            }
+        }
+
+        // Drag-to-scroll mouse helper for desktop users
+        function initDragToScroll(element) {
+            if (!element) return;
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            element.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - element.offsetLeft;
+                scrollLeft = element.scrollLeft;
+                element.style.cursor = 'grabbing';
+                element.style.userSelect = 'none';
+            });
+
+            element.addEventListener('mouseleave', () => {
+                isDown = false;
+                element.style.cursor = '';
+            });
+
+            element.addEventListener('mouseup', () => {
+                isDown = false;
+                element.style.cursor = '';
+            });
+
+            element.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - element.offsetLeft;
+                const walk = (x - startX) * 1.5; // Velocidad de arrastre
+                element.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        const filterBar = document.querySelector('.categories-filter-bar');
+        initDragToScroll(filterBar);
+
+        const carouselContainer = document.querySelector('.carousel-container');
+        initDragToScroll(carouselContainer);
+
+        // Initialize synchronization and ScrollSpy
+        document.addEventListener('DOMContentLoaded', () => {
+            processGuestName();
+            syncReservations();
+
+            // IntersectionObserver for ScrollSpy
+            const sections = document.querySelectorAll('.registry-section');
+            const chips = document.querySelectorAll('.category-chip');
+            const container = document.querySelector('.registry-container');
+
+            const observerOptions = {
+                root: container,
+                rootMargin: '-15% 0px -75% 0px', // Activa la sección cuando entra en la zona superior de lectura
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id.replace('cat-', '');
+
+                        // Encontrar y activar el chip correspondiente
+                        chips.forEach(chip => {
+                            const onClickAttr = chip.getAttribute('onclick');
+                            if (onClickAttr && onClickAttr.includes(`'${sectionId}'`)) {
+                                chips.forEach(c => c.classList.remove('active'));
+                                chip.classList.add('active');
+
+                                // Autodeslizar la barra horizontal de chips para centrar el activo
+                                chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+        });
+
+        // ────────────────────────────────────────
+        // LÓGICA DE MODAL PARA REGALO EN EFECTIVO
+        // ────────────────────────────────────────
+        const cashPopup = document.getElementById('cashPopup');
+        const closeCashPopup = document.getElementById('closeCashPopup');
+        let cashFileBase64 = "";
+
+        window.openCashModal = function () {
+            showCashAccountsScreen();
+            cashPopup.classList.add('active');
+            
+            // Re-aplicar el nombre de invitado al formulario de efectivo si existe
+            const storedName = localStorage.getItem('guest_name');
+            const cashNameInput = document.getElementById('cashName');
+            if (storedName && cashNameInput) {
+                cashNameInput.value = storedName;
+            }
+        };
+
+        window.closeCashModal = function () {
+            cashPopup.classList.remove('active');
+        };
+
+        if (closeCashPopup) {
+            closeCashPopup.addEventListener('click', closeCashModal);
+        }
+        if (cashPopup) {
+            cashPopup.addEventListener('click', (e) => {
+                if (e.target === cashPopup) closeCashModal();
+            });
+        }
+
+        window.showCashAccountsScreen = function () {
+            document.getElementById('cashAccountsScreen').style.display = 'block';
+            document.getElementById('cashFormScreen').style.display = 'none';
+        };
+
+        window.showCashFormScreen = function () {
+            document.getElementById('cashAccountsScreen').style.display = 'none';
+            document.getElementById('cashFormScreen').style.display = 'block';
+        };
+
+        window.previewCashFile = function (input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    cashFileBase64 = e.target.result;
+                    document.getElementById('cashPreviewImg').src = cashFileBase64;
+                    document.getElementById('cashPreviewContainer').style.display = 'block';
+
+                    const trigger = document.getElementById('cashFileTrigger');
+                    trigger.style.border = '2px solid var(--green-leaf)';
+                    trigger.style.background = 'rgba(137, 194, 135, 0.05)';
+                    trigger.querySelector('p').innerText = "Imagen seleccionada: " + file.name;
+                    trigger.querySelector('i').className = "fas fa-check-circle";
+                    trigger.querySelector('i').style.color = "var(--green-leaf)";
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        window.clearCashPreview = function () {
+            cashFileBase64 = "";
+            document.getElementById('cashFile').value = "";
+            document.getElementById('cashPreviewContainer').style.display = 'none';
+            document.getElementById('cashPreviewImg').src = "";
+
+            const trigger = document.getElementById('cashFileTrigger');
+            trigger.style.border = '2px dashed rgba(93,67,58,0.2)';
+            trigger.style.background = 'rgba(93,67,58,0.02)';
+            trigger.querySelector('p').innerText = "Toca para seleccionar o tomar foto";
+            trigger.querySelector('i').className = "fas fa-camera";
+            trigger.querySelector('i').style.color = "var(--pink-dark)";
+        };
+
+        window.submitCashGift = function () {
+            const name = document.getElementById('cashName').value.trim();
+            const phone = document.getElementById('cashPhone').value.trim();
+            const amount = document.getElementById('cashAmount').value.trim();
+            const submitBtn = document.getElementById('btnSubmitCash');
+
+            if (!name || !phone || !amount) {
+                alert("Por favor completa los campos requeridos.");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+
+            if (GOOGLE_SHEET_URL) {
+                fetch(GOOGLE_SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'cash_gift',
+                        name: name,
+                        phone: phone,
+                        amount: amount,
+                        image: cashFileBase64
+                    })
+                })
+                    .then(() => {
+                        alert("¡Muchas gracias! Tu registro de transferencia fue enviado con éxito.");
+                        closeCashModal();
+                        document.getElementById('cashRegisterForm').reset();
+                        clearCashPreview();
+                    })
+                    .catch(err => {
+                        console.error("Error al registrar transferencia:", err);
+                        alert("Hubo un problema al enviar tu registro, pero intentaremos procesarlo.");
+                        closeCashModal();
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Enviar Registro';
+                    });
+            } else {
+                alert("La URL de Google Sheets no está configurada.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Enviar Registro';
+            }
+        };
+
+        // Personalized guest name autocompleter and greeting
+        function processGuestName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let guestName = urlParams.get('invitado') || urlParams.get('name') || urlParams.get('guest');
+            
+            if (guestName) {
+                guestName = decodeURIComponent(guestName).trim();
+                localStorage.setItem('guest_name', guestName);
+            } else {
+                guestName = localStorage.getItem('guest_name');
+            }
+            
+            if (guestName) {
+                // 1. Show registry page welcome card
+                const registryGuestCard = document.getElementById('registryGuestCard');
+                const registryGuestNameSpan = document.getElementById('registryGuestNameSpan');
+                if (registryGuestCard && registryGuestNameSpan) {
+                    registryGuestNameSpan.innerText = guestName;
+                    registryGuestCard.style.display = 'flex';
+                }
+                
+                // 2. Autocomplete gift reservation input
+                const reserveGuestNameInput = document.getElementById('reserveGuestName');
+                if (reserveGuestNameInput) {
+                    reserveGuestNameInput.value = guestName;
+                }
+                
+                // 3. Autocomplete cash register input
+                const cashNameInput = document.getElementById('cashName');
+                if (cashNameInput) {
+                    cashNameInput.value = guestName;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

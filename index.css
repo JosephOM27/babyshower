@@ -1,0 +1,1859 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Quicksand:wght@400;500;600;700&display=swap');
+
+:root {
+    --cream: #FFFDF9;
+    --cream-light: #FFFFFC;
+    --pink-pastel: #FFECEF;
+    --pink-medium: #FFB3C1;
+    --pink-dark: #FF7597;
+    --strawberry-red: #E03E52;
+    --strawberry-deep: #B22234;
+    --green-light: #EBF7E9;
+    --green-leaf: #89C287;
+    --green-dark: #4B7849;
+    --brown-text: #5D433A;
+    --brown-light: #8C6F65;
+    --gold-star: #F5C642;
+    --shadow-soft: 0 10px 30px rgba(93, 67, 58, 0.15);
+    --shadow-medium: 0 15px 35px rgba(93, 67, 58, 0.25);
+    --shadow-heavy: 0 25px 50px rgba(93, 67, 58, 0.35);
+    
+    --font-title: 'Cherry Swash', serif;
+    --font-body: 'Quicksand', sans-serif;
+    --font-cursive: 'Great Vibes', cursive;
+    --font-serif: 'Playfair Display', serif;
+    
+    --card-r: 28px;
+    --safe-top: env(safe-area-inset-top, 24px);
+    --safe-bottom: env(safe-area-inset-bottom, 24px);
+    --trans-cubic: cubic-bezier(0.77, 0, 0.175, 1);
+    --trans-speed: 1s;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: #FFF2F4;
+    font-family: var(--font-body);
+    color: var(--brown-text);
+    font-size: 16px;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Desktop Background Decoration */
+.desktop-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url('img/fondo fresitas.png');
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px) brightness(0.98);
+    z-index: 1;
+    transform: scale(1.05);
+}
+
+.desktop-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 253, 249, 0.2);
+    z-index: 2;
+}
+
+/* App Container (Viewport locked to 9:16 ratio on large screens, full screen on mobile) */
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    background-color: var(--cream);
+    overflow: hidden;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    transition: all 0.5s ease;
+}
+
+@media (min-width: 480px) and (min-height: 640px) {
+    .app-container {
+        width: 100%;
+        max-width: 460px;
+        height: 850px;
+        max-height: 92dvh;
+        border-radius: 42px;
+        border: 10px solid #FFF;
+        box-shadow: var(--shadow-heavy);
+        outline: 1px solid rgba(93, 67, 58, 0.12);
+    }
+}
+
+/* Background Checkered pattern for slides */
+.checkered-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at center, rgba(255, 253, 249, 0.45) 20%, rgba(255, 253, 249, 0.88) 100%),
+        url('img/fondo mantel rosa picnic.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 1; /* Opaque and warm background matching the cover screen exactly */
+}
+
+.checkered-overlay {
+    display: none; /* Removed to avoid duplicate overlays */
+}
+
+/* Ambient Particles */
+.ambient-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    overflow: hidden;
+}
+
+/* Audio Control */
+.audio-control {
+    position: absolute;
+    top: calc(var(--safe-top) + 12px);
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 253, 249, 0.9);
+    border: 1px solid rgba(255, 117, 151, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pink-dark);
+    box-shadow: 0 4px 15px rgba(93, 67, 58, 0.08);
+    cursor: pointer;
+    z-index: 900;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.audio-control:hover {
+    transform: scale(1.1);
+}
+
+.audio-control i {
+    font-size: 1.1rem;
+}
+
+.audio-control.playing i {
+    animation: musicPulse 1.2s ease infinite alternate;
+}
+
+@keyframes musicPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* COVER SCREEN / SOBRE VIRTUAL */
+/* ────────────────────────────────────────────────────────── */
+.cover-screen {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at center, rgba(255, 253, 249, 0.75) 20%, rgba(255, 253, 249, 0.94) 100%),
+        url('img/fondo mantel rosa picnic.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 950;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 1.2s var(--trans-cubic), opacity 1.2s var(--trans-cubic);
+}
+
+.cover-screen.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.cover-screen.opened {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.envelope-bg {
+    position: absolute;
+    width: 250px;
+    height: 200px;
+    background-color: var(--cream);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 117, 151, 0.4);
+    box-shadow: var(--shadow-medium);
+    transform: rotate(-3deg);
+}
+
+.envelope-picnic {
+    position: absolute;
+    width: 240px;
+    height: 190px;
+    background-color: var(--pink-pastel);
+    background-image: 
+        linear-gradient(90deg, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.4) 50%, transparent 50%);
+    background-size: 20px 20px;
+    border-radius: 8px;
+    transform: rotate(-3deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.envelope-card {
+    width: 210px;
+    height: 160px;
+    background-color: var(--cream-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(93, 67, 58, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border: 1px solid rgba(255, 117, 151, 0.15);
+}
+
+.envelope-card .strawberry-stamp {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+.cover-screen.visible .strawberry-stamp {
+    animation: 
+        stampDropIn 0.85s cubic-bezier(0.38, 0.1, 0.9, 0.45) both,
+        bounceStamp 3s ease-in-out infinite 1.2s;
+}
+
+@keyframes stampDropIn {
+    0% {
+        transform: translateY(-95dvh) scale(0.3) rotate(-35deg);
+        opacity: 0;
+    }
+    40% {
+        transform: translateY(0) scale(1.2) rotate(15deg);
+        opacity: 1;
+    }
+    55% {
+        transform: translateY(-60px) scale(0.9) rotate(-10deg);
+    }
+    70% {
+        transform: translateY(0) scale(1.1) rotate(5deg);
+    }
+    82% {
+        transform: translateY(-20px) scale(0.95) rotate(-3deg);
+    }
+    92% {
+        transform: translateY(0) scale(1.02) rotate(1deg);
+    }
+    100% {
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+}
+
+@keyframes bounceStamp {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.05); }
+}
+
+.envelope-card h3 {
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    color: var(--pink-dark);
+    margin-bottom: 4px;
+}
+
+.envelope-card p {
+    font-size: 0.72rem;
+    color: var(--brown-light);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.envelope-wax-seal {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, var(--pink-dark) 40%, var(--strawberry-red) 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(224, 62, 82, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transform: rotate(12deg);
+    border: 2px solid var(--cream);
+    animation: pulseSeal 2s ease-in-out infinite;
+}
+
+@keyframes pulseSeal {
+    0%, 100% { transform: scale(1) rotate(12deg); }
+    50% { transform: scale(1.08) rotate(12deg); }
+}
+
+.envelope-wax-seal i {
+    color: var(--cream);
+    font-size: 1.6rem;
+}
+
+.cover-card-info {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1.5px dashed rgba(255, 117, 151, 0.22);
+    border-radius: 24px;
+    padding: 18px 22px;
+    width: 88%;
+    max-width: 320px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 24px rgba(93, 67, 58, 0.03);
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-title {
+    font-family: var(--font-title);
+    font-size: 1.62rem;
+    color: var(--strawberry-red);
+    margin-bottom: 8px;
+    line-height: 1.25;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.cover-sub {
+    font-size: 0.76rem;
+    color: var(--brown-text);
+    margin-bottom: 0;
+    max-width: 280px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.cover-btn {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #FFF;
+    background: linear-gradient(135deg, var(--pink-dark) 0%, var(--strawberry-red) 100%);
+    padding: 12px 32px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 8px 25px rgba(224, 62, 82, 0.35);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.cover-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(224, 62, 82, 0.45);
+}
+
+.cover-btn i {
+    font-size: 1rem;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* CINEMATIC ANIMATIONS CONTAINER */
+/* ────────────────────────────────────────────────────────── */
+.cinematic-container {
+    position: absolute;
+    inset: 0;
+    z-index: 800;
+    background-color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.cinematic-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+/* Scene 1: Stork Flying Wrapper and Image */
+.stork-wrapper {
+    position: absolute;
+    left: -200px;
+    top: 15%;
+    width: 170px;
+    height: 170px;
+    z-index: 10;
+    pointer-events: none;
+    filter: drop-shadow(0 15px 12px rgba(93, 67, 58, 0.15));
+    transform: scale(0.9);
+}
+
+.stork-wrapper.flying {
+    animation: storkPath 6.5s var(--trans-cubic) forwards;
+}
+
+.stork-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform-origin: center center;
+    animation: storkFlap 0.7s ease-in-out infinite alternate;
+}
+
+.stork-wrapper.delivering .stork-img {
+    animation: storkDeliver 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes storkPath {
+    0% {
+        left: -200px;
+        top: 25%;
+        transform: scale(0.65);
+    }
+    40% { /* Reaches center */
+        left: 50%;
+        top: 14%;
+        transform: translate(-50%, 0) scale(1);
+    }
+    60% { /* Delivers/pauses */
+        left: 50%;
+        top: 14%;
+        transform: translate(-50%, 0) scale(1);
+    }
+    100% { /* Flies away */
+        left: 120%;
+        top: 8%;
+        transform: scale(0.75);
+    }
+}
+
+@keyframes storkFlap {
+    0% { transform: scaleY(0.9) rotate(2deg); }
+    100% { transform: scaleY(1.05) rotate(-2deg); }
+}
+
+@keyframes storkDeliver {
+    0% { transform: translateY(-5px) scaleY(0.97); }
+    100% { transform: translateY(5px) scaleY(1.03); }
+}
+
+/* Scene 2 & 3: Dropped Baby Falling Wrapper and Image */
+.baby-wrapper {
+    position: absolute;
+    top: 18%;
+    left: 50%;
+    width: 130px;
+    height: 130px;
+    transform: translateX(-50%) scale(0);
+    z-index: 12;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.baby-wrapper.falling {
+    animation: babyPath 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.baby-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(93, 67, 58, 0.15));
+    animation: babySway 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes babyPath {
+    0% {
+        top: 18%;
+        transform: translateX(-50%) scale(0.2);
+        opacity: 0;
+    }
+    12% {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.85);
+    }
+    70% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        top: 110%; /* Sigue cayendo hasta salir por la parte inferior */
+        transform: translateX(-50%) scale(1.12);
+        opacity: 0.7;
+    }
+}
+
+@keyframes babySway {
+    0% { transform: rotate(-12deg) translateX(-6px); }
+    100% { transform: rotate(12deg) translateX(6px); }
+}
+
+/* Sparkles during drop */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    background-color: var(--gold-star);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 11;
+}
+
+.strawberry-particle {
+    position: absolute;
+    pointer-events: none;
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path fill='%23E03E52' d='M12 2c-.6 0-1 .4-1.2.9L10 5.2C8.6 5.8 7 7 6 8.5c-2 3-2 6.5 0 9.5 1.5 2.2 4 4 6 4s4.5-1.8 6-4c2-3 2-6.5 0-9.5-1-1.5-2.6-2.7-4-3.3l-.8-2.3c-.2-.5-.6-.9-1.2-.9z'/><path fill='%2389C287' d='M12 5c-.8 0-1.8-.5-2.3-1.1-.3-.3-.8-.3-1.1 0-.3.3-.3.8 0 1.1C9.4 5.8 10.7 6.4 12 6.4c1.3 0 2.6-.6 3.4-1.4.3-.3.3-.8 0-1.1-.3-.3-.8-.3-1.1 0-.5.6-1.5 1.1-2.3 1.1z'/><circle fill='%23FFF' cx='9' cy='10' r='0.8'/><circle fill='%23FFF' cx='15' cy='11' r='0.8'/><circle fill='%23FFF' cx='10' cy='14' r='0.8'/><circle fill='%23FFF' cx='14' cy='13' r='0.8'/><circle fill='%23FFF' cx='12' cy='16' r='0.8'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 11;
+}
+
+/* Scene 4: Cinematic Flash Transition */
+.cinematic-flash {
+    position: absolute;
+    inset: 0;
+    background: #FFF;
+    opacity: 0;
+    z-index: 900;
+    pointer-events: none;
+}
+
+.cinematic-flash.flash {
+    animation: flashTransition 1.6s ease-out forwards;
+}
+
+@keyframes flashTransition {
+    0% { opacity: 0; }
+    20% { opacity: 1; filter: blur(0px); }
+    40% { opacity: 1; filter: blur(4px); }
+    100% { opacity: 0; }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SLIDES WRAPPER & NAVIGATION */
+/* ────────────────────────────────────────────────────────── */
+.slides-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease-out;
+}
+
+.slides-wrapper.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(12px, 3.5vw, 24px) clamp(16px, 5vw, 32px) clamp(24px, 7vw, 40px);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform var(--trans-speed) var(--trans-cubic), opacity var(--trans-speed) var(--trans-speed);
+    pointer-events: none;
+}
+
+.slide.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+    z-index: 110;
+}
+
+.slide.prev {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    z-index: 10;
+}
+
+/* Premium Card container inside each slide */
+.card-content-box {
+    position: relative;
+    width: 100%;
+    max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 80px);
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: var(--card-r);
+    box-shadow: var(--shadow-medium);
+    border: 3px solid #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(16px, 4.5vw, 24px) clamp(16px, 4.5vw, 22px) clamp(20px, 5.5vw, 26px);
+    z-index: 10;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none; /* Hide default scrollbar */
+}
+
+.card-content-box::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+/* Gingham border layout inside card */
+.card-border-frame {
+    position: absolute;
+    inset: 6px;
+    border-radius: calc(var(--card-r) - 4px);
+    border: 1px dashed rgba(255, 117, 151, 0.35);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Floating elements in Card */
+.card-decor-strawberry {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    z-index: 2;
+    filter: drop-shadow(0 4px 6px rgba(93, 67, 58, 0.12));
+    pointer-events: none;
+}
+
+.card-decor-strawberry.top-left {
+    top: -12px;
+    left: -8px;
+    transform: rotate(-15deg);
+}
+
+.card-decor-strawberry.top-right {
+    top: -12px;
+    right: -8px;
+    transform: rotate(20deg);
+}
+
+/* Floating leaves/flowers */
+.card-decor-flower {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle fill='%23FFF' cx='12' cy='12' r='4'/><circle fill='%23FFD6DC' cx='12' cy='6' r='4'/><circle fill='%23FFD6DC' cx='12' cy='18' r='4'/><circle fill='%23FFD6DC' cx='6' cy='12' r='4'/><circle fill='%23FFD6DC' cx='18' cy='12' r='4'/><circle fill='%23F5C642' cx='12' cy='12' r='2.5'/></svg>");
+    background-size: contain;
+    z-index: 2;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(93, 67, 58, 0.06));
+}
+
+.card-decor-flower.fl-1 {
+    top: 25px;
+    right: 15px;
+    transform: rotate(5deg);
+    animation: swaySlightly 4s ease-in-out infinite alternate;
+}
+
+.card-decor-flower.fl-2 {
+    bottom: 35%;
+    left: -8px;
+    width: 24px;
+    height: 24px;
+    transform: rotate(45deg);
+    animation: swaySlightly 5s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes swaySlightly {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(15deg) scale(1.05); }
+}
+
+/* Bottom waving Baby Strawberry Shortcake */
+.baby-waving-wrapper {
+    position: absolute;
+    bottom: -15px;
+    right: -10px;
+    width: 100px;
+    height: 100px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.baby-waving-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 8px rgba(93, 67, 58, 0.15));
+}
+
+.baby-waving-img.wave {
+    animation: babyGreeting 6s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+@keyframes babyGreeting {
+    0%, 70%, 100% { transform: rotate(0deg) scale(1); }
+    75%, 85% { transform: rotate(-5deg) scale(1.03); }
+    80%, 90% { transform: rotate(5deg) scale(1.03); }
+}
+
+/* Card Headers & Typo */
+.pill-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--green-light);
+    border: 1px solid rgba(137, 194, 135, 0.35);
+    color: var(--green-dark);
+    font-size: clamp(0.68rem, 2vw, 0.76rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: clamp(6px, 1.8vw, 12px);
+    z-index: 1;
+}
+
+.pill-container i {
+    font-size: 0.8rem;
+    color: var(--green-leaf);
+}
+
+.main-title-tag {
+    font-family: var(--font-title);
+    font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+    color: var(--pink-dark);
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 2px;
+    z-index: 1;
+}
+
+.baby-name-wrap {
+    display: flex;
+    align-items: flex-end; /* Align sitting baby to text bottom */
+    justify-content: center;
+    gap: 4px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.baby-name-cursive {
+    font-family: var(--font-cursive);
+    font-size: clamp(2.8rem, 10vw, 4rem); /* Slightly smaller so it fits next to the baby image */
+    background: linear-gradient(135deg, var(--strawberry-red) 30%, var(--pink-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+    line-height: 1.45; /* Aumentar para evitar recorte superior/inferior de las astas de las letras */
+    padding: 10px 16px; /* Espaciado extra para que entren los trazos decorativos */
+    z-index: 1;
+    display: inline-block; /* Evita que el motor de renderizado recorte los bordes */
+}
+
+.baby-inline-img {
+    width: clamp(65px, 18vw, 85px); /* Adjusted size to fit horizontally */
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(93, 67, 58, 0.12));
+    animation: babyFloatInline 3s ease-in-out infinite alternate;
+    flex-shrink: 0;
+    margin-bottom: 6px; /* Sits naturally on the baseline next to Joyce */
+}
+
+@keyframes babyFloatInline {
+    0% { transform: translateY(2px) rotate(-1deg); }
+    100% { transform: translateY(-4px) rotate(2deg); }
+}
+
+.welcome-msg {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(0.85rem, 2.6vw, 0.96rem);
+    color: var(--brown-light);
+    line-height: 1.45;
+    text-align: center;
+    margin: 0 auto clamp(8px, 2vw, 14px);
+    max-width: 250px;
+    z-index: 1;
+}
+
+.info-cards-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 2vw, 12px);
+    margin-bottom: clamp(14px, 4vw, 20px);
+    z-index: 1;
+}
+
+.info-card-item {
+    background: var(--cream-light);
+    border: 1px solid rgba(93, 67, 58, 0.07);
+    border-radius: 20px;
+    padding: clamp(10px, 3vw, 14px) clamp(12px, 3.5vw, 16px);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(93, 67, 58, 0.03);
+    transition: all 0.3s ease;
+}
+
+.info-card-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(93, 67, 58, 0.06);
+}
+
+.info-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--pink-pastel);
+    color: var(--pink-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.info-card-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.info-card-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--brown-light);
+    margin-bottom: 2px;
+}
+
+.info-card-value {
+    font-size: clamp(0.78rem, 2.2vw, 0.88rem);
+    font-weight: 700;
+    color: var(--brown-text);
+    line-height: 1.3;
+}
+
+/* Page tear calendar block style */
+.calendar-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.calendar-box {
+    width: 48px;
+    height: 52px;
+    border-radius: 12px;
+    background-color: #FFF;
+    border: 2px solid var(--pink-medium);
+    box-shadow: 0 4px 8px rgba(93, 67, 58, 0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.calendar-header {
+    background-color: var(--pink-dark);
+    color: #FFF;
+    font-size: 0.58rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2px 0;
+    letter-spacing: 0.05em;
+}
+
+.calendar-day {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--brown-text);
+}
+
+/* Buttons group */
+.button-row-actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    z-index: 1;
+}
+
+.invitation-btn {
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: clamp(0.72rem, 2vw, 0.82rem);
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.invitation-btn.primary {
+    background: linear-gradient(135deg, var(--pink-dark) 0%, var(--strawberry-red) 100%);
+    color: #FFF;
+    box-shadow: 0 6px 20px rgba(224, 62, 82, 0.25);
+}
+
+.invitation-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(224, 62, 82, 0.35);
+}
+
+.invitation-btn.secondary {
+    background-color: var(--cream-light);
+    color: var(--brown-text);
+    border: 1px solid rgba(93, 67, 58, 0.15);
+    box-shadow: 0 4px 12px rgba(93, 67, 58, 0.04);
+}
+
+.invitation-btn.secondary:hover {
+    background-color: #FFF2F4;
+    border-color: var(--pink-medium);
+    transform: translateY(-2px);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SLIDE 1: GIFT OPTIONS (SUGERENCIAS DE REGALOS) */
+/* ────────────────────────────────────────────────────────── */
+.gifts-grid-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+    z-index: 1;
+}
+
+.gift-card-selection {
+    background-color: var(--cream-light);
+    border: 2px solid rgba(93, 67, 58, 0.06);
+    border-radius: 20px;
+    padding: 14px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.gift-card-selection:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--pink-medium);
+}
+
+.gift-card-selection.active {
+    background: linear-gradient(135deg, #FFF4F6 0%, #FFFDF9 100%);
+    border-color: var(--pink-dark);
+    box-shadow: 0 6px 20px rgba(255, 117, 151, 0.15);
+}
+
+.gift-card-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--pink-pastel);
+    color: var(--pink-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    transition: transform 0.3s ease;
+}
+
+.gift-card-selection.active .gift-card-icon-wrap {
+    background-color: var(--pink-dark);
+    color: #FFF;
+    transform: scale(1.1);
+}
+
+.gift-card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--brown-text);
+    margin-bottom: 4px;
+}
+
+.gift-card-desc {
+    font-size: 0.68rem;
+    color: var(--brown-light);
+    line-height: 1.3;
+}
+
+/* Modal details slider for payment or sizing details */
+.gift-expansion-panel {
+    width: 100%;
+    background-color: #FFF2F4;
+    border: 1px dashed rgba(255, 117, 151, 0.4);
+    border-radius: 18px;
+    padding: 12px 14px;
+    font-size: 0.74rem;
+    line-height: 1.4;
+    color: var(--brown-text);
+    margin-bottom: 12px;
+    text-align: left;
+    display: none;
+    z-index: 1;
+    animation: slideDownFade 0.4s ease forwards;
+}
+
+@keyframes slideDownFade {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.gift-expansion-panel.visible {
+    display: block;
+}
+
+.expansion-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.expansion-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.copy-btn {
+    background-color: var(--pink-dark);
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.copy-btn:active {
+    transform: scale(0.9);
+}
+
+/* Quote board */
+.quote-board {
+    width: 100%;
+    background-color: var(--cream-light);
+    border: 1px dashed rgba(137, 194, 135, 0.4);
+    border-radius: 20px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    z-index: 1;
+}
+
+.quote-board i {
+    font-size: 1.4rem;
+    color: var(--pink-dark);
+    animation: heartPulse 1.4s ease infinite;
+}
+
+@keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+}
+
+.quote-board p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--brown-light);
+    text-align: left;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SLIDE 2: DRESS CODE (CODIGO DE VESTIMENTA) */
+/* ────────────────────────────────────────────────────────── */
+.dress-card-info {
+    width: 100%;
+    background-color: var(--cream-light);
+    border: 1px solid rgba(93, 67, 58, 0.06);
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(93, 67, 58, 0.02);
+    margin-bottom: 12px;
+    z-index: 1;
+}
+
+.dress-card-title {
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    color: var(--brown-text);
+    margin-bottom: 8px;
+}
+
+.dress-card-subtitle {
+    font-size: 0.74rem;
+    color: var(--brown-light);
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.dress-palette-grid {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.dress-palette-color {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #FFF;
+    box-shadow: 0 4px 10px rgba(93, 67, 58, 0.1);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dress-palette-color:hover {
+    transform: translateY(-4px) scale(1.05);
+}
+
+.dress-palette-color.active {
+    transform: translateY(-4px) scale(1.1);
+    border-color: var(--pink-dark);
+    box-shadow: 0 6px 15px rgba(255, 117, 151, 0.2);
+}
+
+.dress-palette-color span {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--brown-light);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dress-palette-color.active span,
+.dress-palette-color:hover span {
+    opacity: 1;
+}
+
+/* Dress Code Tip Box */
+.tip-note-box {
+    width: 100%;
+    background-color: var(--green-light);
+    border-left: 4px solid var(--green-leaf);
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    color: var(--green-dark);
+    text-align: left;
+    margin-bottom: 12px;
+    z-index: 1;
+}
+
+.tip-note-box strong {
+    color: var(--green-dark);
+}
+
+/* Bottom Slide indicators */
+.slide-pagination-dots {
+    position: absolute;
+    bottom: calc(var(--safe-bottom) + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 150;
+    pointer-events: all;
+}
+
+.slide-dot-item {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(93, 67, 58, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slide-dot-item.active {
+    width: 24px;
+    border-radius: 10px;
+    background-color: var(--pink-dark);
+}
+
+.slide-hint-arrow {
+    position: absolute;
+    bottom: calc(var(--safe-bottom) + 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--pink-dark);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    z-index: 140;
+    animation: floatHint 2s infinite ease-in-out;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.slide-hint-arrow.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes floatHint {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 6px); }
+}
+
+.slide-hint-arrow i {
+    font-size: 0.9rem;
+}
+
+/* Progressive content fade up in active slide */
+.slide.active .card-content-box > * {
+    animation: slideFadeUp 0.6s var(--trans-cubic) both;
+}
+
+@keyframes slideFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide.active .card-content-box > *:nth-child(1) { animation-delay: 0.05s; }
+.slide.active .card-content-box > *:nth-child(2) { animation-delay: 0.12s; }
+.slide.active .card-content-box > *:nth-child(3) { animation-delay: 0.18s; }
+.slide.active .card-content-box > *:nth-child(4) { animation-delay: 0.24s; }
+.slide.active .card-content-box > *:nth-child(5) { animation-delay: 0.30s; }
+.slide.active .card-content-box > *:nth-child(6) { animation-delay: 0.36s; }
+.slide.active .card-content-box > *:nth-child(7) { animation-delay: 0.42s; }
+.slide.active .card-content-box > *:nth-child(8) { animation-delay: 0.48s; }
+.slide.active .card-content-box > *:nth-child(9) { animation-delay: 0.54s; }
+
+/* Clouds flight parallax container & clouds */
+.clouds-container {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 100px;
+    box-shadow: 0 6px 15px rgba(255, 183, 197, 0.05);
+    filter: blur(2px);
+    opacity: 0;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+}
+
+.cloud::before {
+    width: 50%;
+    height: 140%;
+    top: -65%;
+    left: 15%;
+}
+
+.cloud::after {
+    width: 40%;
+    height: 110%;
+    top: -45%;
+    right: 15%;
+}
+
+.cloud.cl-1 {
+    width: 100px;
+    height: 32px;
+    top: 18%;
+    right: -120px;
+    animation: cloudMove 9s linear infinite;
+}
+
+.cloud.cl-2 {
+    width: 150px;
+    height: 48px;
+    top: 32%;
+    right: -170px;
+    animation: cloudMove 13s linear infinite;
+    animation-delay: 2.2s;
+}
+
+.cloud.cl-3 {
+    width: 85px;
+    height: 28px;
+    top: 10%;
+    right: -100px;
+    animation: cloudMove 7s linear infinite;
+    animation-delay: 4.5s;
+}
+
+.cloud.cl-4 {
+    width: 130px;
+    height: 40px;
+    top: 48%;
+    right: -150px;
+    animation: cloudMove 11s linear infinite;
+    animation-delay: 1.2s;
+}
+
+@keyframes cloudMove {
+    0% {
+        right: -180px;
+        opacity: 0;
+        transform: scale(0.8) translateX(0);
+    }
+    15% {
+        opacity: 0.85;
+    }
+    85% {
+        opacity: 0.85;
+    }
+    100% {
+        right: 115%;
+        opacity: 0;
+        transform: scale(1.05) translateX(0);
+    }
+}
+
+/* Card drop down from top to bottom on Slide 0 activation */
+.slide[data-index="0"].active .card-content-box {
+    animation: cardDropIn 1.3s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes cardDropIn {
+    0% {
+        transform: translateY(-120vh) rotate(-6deg);
+        opacity: 0;
+    }
+    65% {
+        transform: translateY(20px) rotate(1.5deg);
+        opacity: 1;
+    }
+    85% {
+        transform: translateY(-6px) rotate(-0.5deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SLIDE 2: ORACIÓN STYLES */
+/* ────────────────────────────────────────────────────────── */
+.prayer-card-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px 5px;
+    z-index: 1;
+}
+
+.prayer-card-title {
+    font-family: var(--font-title);
+    font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+    color: var(--pink-dark);
+    margin-bottom: 6px;
+    text-shadow: 1px 1px 2px rgba(93, 67, 58, 0.04);
+}
+
+.prayer-banner {
+    margin: 5px auto 16px;
+    padding: 6px 24px;
+    background-color: var(--pink-pastel);
+    border: 1px solid rgba(255, 117, 151, 0.25);
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(255, 117, 151, 0.08);
+    display: inline-block;
+    font-family: var(--font-cursive);
+    font-size: clamp(2.2rem, 8vw, 2.8rem);
+    line-height: 0.8;
+    color: var(--strawberry-red);
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+}
+
+.prayer-banner:hover {
+    transform: rotate(1deg) scale(1.05);
+}
+
+.prayer-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 2.6vw, 0.88rem);
+    line-height: 1.6;
+    color: var(--brown-text);
+    font-weight: 500;
+    margin: 0 auto 18px;
+    max-width: 280px;
+    text-align: center;
+}
+
+.prayer-thanks {
+    font-family: var(--font-cursive);
+    font-size: clamp(2.4rem, 8.5vw, 3rem);
+    color: var(--strawberry-red);
+    margin-top: 5px;
+    line-height: 1.1;
+    text-shadow: 1px 1px 0px #FFF;
+}
+
+.prayer-baby-wrap {
+    width: 105px;
+    height: 105px;
+    margin-top: auto;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.prayer-baby-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 10px rgba(93, 67, 58, 0.12));
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* RSVP POPUP MODAL STYLES */
+/* ────────────────────────────────────────────────────────── */
+.popup-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(93, 67, 58, 0.45);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.popup-box {
+    width: 88%;
+    max-width: 380px;
+    background-color: var(--cream);
+    border: 3px solid #FFF;
+    border-radius: 28px;
+    box-shadow: var(--shadow-heavy);
+    padding: 24px 20px;
+    position: relative;
+    transform: scale(0.85);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    border: 1px solid rgba(255, 117, 151, 0.15);
+}
+
+.popup-overlay.active .popup-box {
+    transform: scale(1);
+}
+
+.popup-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: none;
+    font-size: 1.8rem;
+    color: var(--brown-light);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.popup-close-btn:hover {
+    color: var(--strawberry-red);
+    transform: scale(1.1);
+}
+
+.popup-state {
+    display: none;
+    width: 100%;
+}
+
+.popup-state.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-title {
+    font-family: var(--font-title);
+    font-size: 1.3rem;
+    color: var(--brown-text);
+    margin-bottom: 4px;
+}
+
+.popup-subtitle {
+    font-size: 0.76rem;
+    color: var(--brown-light);
+    line-height: 1.4;
+    margin-bottom: 15px;
+    max-width: 270px;
+}
+
+.popup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-group label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--brown-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 4px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(93, 67, 58, 0.15);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--brown-text);
+    background-color: var(--cream-light);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--pink-dark);
+    box-shadow: 0 0 8px rgba(255, 117, 151, 0.25);
+}
+
+/* Custom Checkbox styles */
+.custom-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.74rem;
+    color: var(--brown-text);
+    font-weight: 600;
+    margin-top: 4px;
+    user-select: none;
+}
+
+.custom-checkbox-label input {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--pink-dark);
+    border-radius: 6px;
+    background-color: var(--cream-light);
+    position: relative;
+    flex-shrink: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.custom-checkbox-label input:checked ~ .checkbox-custom {
+    background-color: var(--pink-dark);
+    border-color: var(--pink-dark);
+}
+
+.checkbox-custom::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid #FFF;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.custom-checkbox-label input:checked ~ .checkbox-custom::after {
+    display: block;
+}
+
+/* Success Checkmark SVG Animation */
+.success-checkmark-wrapper {
+    width: 68px;
+    height: 68px;
+    margin: 8px auto 14px;
+    display: block;
+}
+
+.checkmark-svg {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 4;
+    stroke: var(--green-leaf);
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px var(--green-leaf);
+    animation: fillCheckmark .4s ease-in-out .4s forwards, scaleCheckmark .3s ease-in-out .9s both;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 4;
+    stroke-miterlimit: 10;
+    stroke: var(--green-leaf);
+    fill: none;
+    animation: strokeCheckmark 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: #FFF;
+    animation: strokeCheckmark 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes strokeCheckmark {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fillCheckmark {
+    100% {
+        box-shadow: inset 0px 0px 0px 35px var(--green-leaf);
+    }
+}
+
+@keyframes scaleCheckmark {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.12, 1.12, 1);
+    }
+}
+
+.popup-success-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* ADMIN PANEL STYLES */
+/* ────────────────────────────────────────────────────────── */
+.admin-float-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--brown-text);
+    color: #FFF;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 1000;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.admin-float-btn:hover {
+    opacity: 1;
+}
+
+.admin-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(93, 67, 58, 0.4);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.admin-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.admin-box {
+    width: 90%;
+    max-width: 380px;
+    background-color: var(--cream);
+    border-radius: 20px;
+    border: 2px solid #FFF;
+    padding: 20px;
+    box-shadow: var(--shadow-heavy);
+    position: relative;
+    text-align: center;
+}
+
+.admin-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--brown-light);
+    line-height: 1;
+}
+
+.admin-close-btn:hover {
+    color: var(--strawberry-red);
+}
+
+.admin-list-container {
+    max-height: 180px;
+    overflow-y: auto;
+    border: 1px solid rgba(93, 67, 58, 0.1);
+    background-color: var(--cream-light);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Baby Shower · Joyce · Invitación Interactiva</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- Desktop Gingham Wallpaper Decoration -->
+    <div class="desktop-bg-pattern"></div>
+    <div class="desktop-bg-overlay"></div>
+
+    <!-- Main Mobile Application Viewport Container -->
+    <div class="app-container">
+        
+        <!-- Ambient Particles Layer -->
+        <div class="ambient-sparkles" id="ambientSparkles"></div>
+
+        <!-- Floating Music Control -->
+        <button class="audio-control" id="audioToggle" style="display: none;" aria-label="Controlar Música">
+            <i class="fas fa-volume-mute" id="audioIcon"></i>
+        </button>
+
+        <!-- Audio Elements -->
+        <audio id="bgMusic" loop preload="auto">
+            <source src="https://assets.mixkit.co/music/preview/mixkit-baby-music-box-1262.mp3" type="audio/mpeg">
+            <source src="https://www.orangefreesounds.com/wp-content/uploads/2021/04/Baby-music-box.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- ────────────────────────────────────────────────────────── -->
+        <!-- PANTALLA DE PORTADA (SOBRE VIRTUAL) -->
+        <!-- ────────────────────────────────────────────────────────── -->
+        <div class="cover-screen" id="coverScreen">
+            <!-- Saludo Personalizado para Invitado en Portada -->
+            <div class="guest-card" id="guestCard" style="display: none; margin-top: -15px; margin-bottom: 20px; font-family: var(--font-title); font-size: 1.02rem; color: var(--brown-text); background: rgba(255, 255, 255, 0.85); padding: 8px 24px; border-radius: 50px; border: 1.5px dashed var(--pink-dark); box-shadow: 0 4px 10px rgba(93,67,58,0.03); z-index: 15; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fas fa-heart" style="color: var(--pink-dark); font-size: 0.75rem;"></i>
+                <span>Para: <strong id="guestNameSpan" style="color: var(--strawberry-red); font-family: var(--font-title);">[Invitado]</strong></span>
+            </div>
+
+            <div class="envelope-wrapper">
+                <div class="envelope-bg"></div>
+                <div class="envelope-picnic">
+                    <div class="envelope-card">
+                        <img class="strawberry-stamp" src="img/Fresita saludando.png" alt="Sello de Fresita" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' width=\'44\' height=\'44\'><circle fill=\'%23E03E52\' cx=\'12\' cy=\'12\' r=\'10\'/><circle fill=\'%23FFF\' cx=\'9\' cy=\'10\' r=\'1.5\'/><circle fill=\'%23FFF\' cx=\'15\' cy=\'10\' r=\'1.5\'/><path fill=\'%23FFF\' d=\'M9,14 C9,14 10.5,16 12,16 C13.5,16 15,14 15,14\'/></svg>'">
+                        <h3>Baby Shower</h3>
+                        <p>De la bebé Joyce</p>
+                    </div>
+                </div>
+                <div class="envelope-wax-seal" id="waxSeal">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <!-- Contenedor para legibilidad y diseño premium -->
+            <div class="cover-card-info">
+                <h1 class="cover-title">Una Dulce Espera</h1>
+                <p class="cover-sub">Te invitamos a formar parte de esta mágica historia. Presiona abajo para abrir la invitación.</p>
+            </div>
+            
+            <button class="cover-btn" id="openBtn">
+                <span>ABRIR INVITACIÓN</span>
+                <i class="fas fa-envelope-open-text"></i>
+            </button>
+        </div>
+
+        <!-- ────────────────────────────────────────────────────────── -->
+        <!-- INTRO ANIMADO CINEMÁTICO (ESCENAS 1, 2, 3 Y TRANSICIÓN) -->
+        <!-- ────────────────────────────────────────────────────────── -->
+        <div class="cinematic-container" id="cinematicContainer">
+            <!-- Sky Pastel Gradient Background (No strawberries, clean sky for stork & clouds) -->
+            <div class="checkered-bg" style="background: linear-gradient(180deg, #87CEFA 0%, #E0F7FA 100%); opacity: 1; filter: none;"></div>
+            <div class="checkered-overlay" style="background: radial-gradient(circle, rgba(135,206,250,0.1) 10%, rgba(255,253,249,0.8) 90%);"></div>
+
+            <!-- Clouds flight parallax container -->
+            <div class="clouds-container">
+                <div class="cloud cl-1"></div>
+                <div class="cloud cl-2"></div>
+                <div class="cloud cl-3"></div>
+                <div class="cloud cl-4"></div>
+            </div>
+
+            <!-- Scene 1: Stork Flying Wrapper -->
+            <div class="stork-wrapper" id="stork">
+                <img class="stork-img" src="img/cigueña llevando a fresita.png" alt="Cigüeña volando" onerror="this.style.display='none'; document.getElementById('storkFallback').style.display='flex';">
+                <div id="storkFallback" class="stork-img" style="display:none; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); border-radius:50%; border:3px solid var(--pink-medium);">
+                    <i class="fas fa-dove" style="font-size:4rem; color:var(--pink-dark);"></i>
+                </div>
+            </div>
+
+            <!-- Scene 2 & 3: Dropped Baby Falling Wrapper -->
+            <div class="baby-wrapper" id="baby">
+                <img class="baby-img" src="img/Fresita saludando.png" alt="Bebé Fresita cayendo" onerror="this.style.display='none'; document.getElementById('babyFallback').style.display='flex';">
+                <div id="babyFallback" class="baby-img" style="display:none; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); border-radius:50%; border:3px dashed var(--pink-dark);">
+                    <i class="fas fa-baby" style="font-size:3rem; color:var(--pink-dark);"></i>
+                </div>
+            </div>
+
+            <!-- Transition screen flash -->
+            <div class="cinematic-flash" id="flash"></div>
+        </div>
+
+        <!-- ────────────────────────────────────────────────────────── -->
+        <!-- PÁGINAS DE LA INVITACIÓN (DESPUÉS DEL INTRO) -->
+        <!-- ────────────────────────────────────────────────────────── -->
+        <div class="slides-wrapper" id="slidesWrapper">
+            <!-- Background checkerboard -->
+            <div class="checkered-bg"></div>
+
+            <!-- ─── SLIDE 0: TARJETA PRINCIPAL ─── -->
+            <div class="slide active" data-index="0">
+                <div class="card-wrapper">
+                    <!-- Decorative elements (placed outside card to prevent clipping) -->
+                    <svg class="card-decor-strawberry top-left" style="width:34px; height:34px;" viewBox="0 0 24 24"><path fill="#E03E52" d="M12 2c-.6 0-1 .4-1.2.9L10 5.2C8.6 5.8 7 7 6 8.5c-2 3-2 6.5 0 9.5 1.5 2.2 4 4 6 4s4.5-1.8 6-4c2-3 2-6.5 0-9.5-1-1.5-2.6-2.7-4-3.3l-.8-2.3c-.2-.5-.6-.9-1.2-.9z"/><path fill="#89C287" d="M12 5c-.8 0-1.8-.5-2.3-1.1-.3-.3-.8-.3-1.1 0-.3.3-.3.8 0 1.1C9.4 5.8 10.7 6.4 12 6.4c1.3 0 2.6-.6 3.4-1.4.3-.3.3-.8 0-1.1-.3-.3-.8-.3-1.1 0-.5.6-1.5 1.1-2.3 1.1z"/><circle fill="#FFF" cx="9" cy="10" r="0.8"/><circle fill="#FFF" cx="15" cy="11" r="0.8"/><circle fill="#FFF" cx="10" cy="14" r="0.8"/><circle fill="#FFF" cx="14" cy="13" r="0.8"/></svg>
+                    <div class="card-decor-flower fl-1"></div>
+                    <div class="card-decor-flower fl-2"></div>
+                    
+                    <div class="card-content-box">
+                        <div class="card-border-frame"></div>
+                        <h2 class="main-title-tag">Bienvenida</h2>
+                    <div class="baby-name-wrap">
+                        <div class="baby-name-cursive">Joyce</div>
+                        <img class="baby-inline-img" src="img/fresita bebe agarrando mariposa.webp" alt="Bebé Joyce" onerror="this.style.display='none';">
+                    </div>
+                    
+                    <!-- Saludo personalizado dinámico para Slide 0 -->
+                    <p class="welcome-guest-name" id="welcomeGuestName" style="display: none; font-family: var(--font-title); font-size: 1.12rem; color: var(--strawberry-red); text-align: center; margin-top: -6px; margin-bottom: 8px; text-shadow: 0 1px 1px rgba(255,255,255,0.7);">¡Hola, Invitado!</p>
+                    
+                    <p class="welcome-msg">"Una dulce fresita está por llegar y queremos celebrar contigo este momento tan especial."</p>
+
+                    <!-- Details Grid -->
+                    <div class="info-cards-grid">
+                        <!-- Date Info (Redundant icon removed) -->
+                        <div class="info-card-item">
+                            <div class="calendar-block">
+                                <div class="calendar-box">
+                                    <div class="calendar-header">Jul</div>
+                                    <div class="calendar-day">4</div>
+                                </div>
+                                <div class="info-card-details">
+                                    <span class="info-card-title">Fecha</span>
+                                    <span class="info-card-value">Sábado, 4 de Julio</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Time Info -->
+                        <div class="info-card-item" style="animation: bounceClock 4s infinite ease-in-out;">
+                            <div class="info-card-icon">
+                                <i class="far fa-clock"></i>
+                            </div>
+                            <div class="info-card-details">
+                                <span class="info-card-title">Hora del Evento</span>
+                                <span class="info-card-value" style="font-size: 1.05rem;">5:00 PM</span>
+                            </div>
+                        </div>
+
+                        <!-- Location Info -->
+                        <div class="info-card-item">
+                            <div class="info-card-icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <div class="info-card-details">
+                                <span class="info-card-title">Lugar del Evento</span>
+                                <span class="info-card-value" style="font-size:0.75rem;">Calle amaru inca yupanqui 120 segunda etapa san agustin, Comas<br><small style="display:block; margin-top:3px; font-size:0.65rem; color:var(--brown-light); font-weight:normal; line-height:1.2;">Ref: A media cuadra cruce av micaela bastida y universitaria</small></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-row-actions">
+                        <a class="invitation-btn secondary" href="https://maps.app.goo.gl/hJbjRaj1JDNaRWvJ9" target="_blank">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Ver Mapa</span>
+                        </a>
+                        <button class="invitation-btn primary" id="confirmButton">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Confirmar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- ─── SLIDE 1: SUGERENCIAS DE REGALOS ─── -->
+            <div class="slide" data-index="1">
+                <div class="card-wrapper">
+                    <!-- Decorative elements (placed outside card to prevent clipping) -->
+                    <div class="card-decor-flower fl-1"></div>
+                    
+                    <div class="card-content-box">
+                        <div class="card-border-frame"></div>
+
+                        <div class="pill-container" style="background-color: #FFF2F4; border-color: rgba(255, 117, 151, 0.2); color: var(--pink-dark);">
+                            <i class="fas fa-gift"></i>
+                            <span>Detalles</span>
+                        </div>
+
+                        <h2 class="main-title-tag" style="margin-bottom: 6px;">Muestras de Amor</h2>
+                        <p class="welcome-msg" style="margin-bottom: 15px;">Tu cariño es el mejor obsequio, pero si deseas tener un detalle con la bebé:</p>
+
+                        <!-- Action button to dedicated registry list page -->
+                        <a class="invitation-btn primary" href="regalos.html" style="margin-top: 15px; margin-bottom: 25px; width: 100%; text-decoration: none; text-transform: uppercase;">
+                            <i class="fas fa-gift"></i>
+                            <span>Ver Lista de Regalos</span>
+                        </a>
+
+                        <!-- Heartbeat Quote banner -->
+                        <div class="quote-board">
+                            <i class="fas fa-heart"></i>
+                            <p>"Cada latido de tu cariño nos ayuda a preparar el dulce hogar que Joyce necesita."</p>
+                        </div>
+
+                        <!-- Bottom Integrated baby: Eating cookie -->
+                        <div style="width:90px; height:90px; margin-top:auto; z-index: 10;">
+                            <img src="img/fresita comiendo galleta.png" alt="Bebé comiendo galleta" style="width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 6px 10px rgba(93,67,58,0.1));" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── SLIDE 2: ORACIÓN ─── -->
+            <div class="slide" data-index="2">
+                <div class="card-wrapper">
+                    <!-- Decorative elements (placed outside card to prevent clipping) -->
+                    <div class="card-decor-flower fl-2"></div>
+                    
+                    <div class="card-content-box">
+                        <div class="card-border-frame"></div>
+
+                        <div class="pill-container" style="background-color: #FFF2F4; border-color: rgba(255, 117, 151, 0.2); color: var(--pink-dark);">
+                            <i class="fas fa-heart"></i>
+                            <span>Una Oración Especial</span>
+                        </div>
+
+                        <div class="prayer-card-info">
+                            <h2 class="prayer-card-title">Baby Shower</h2>
+                            
+                            <!-- Banner Style decoration -->
+                            <div class="prayer-banner">
+                                <span>Joyce</span>
+                            </div>
+
+                            <p class="prayer-text">
+                                Pronto habrá una nueva sonrisa iluminando nuestras vidas. Cuando llegue este maravilloso día, enciende esta velita dándole gracias a Dios y orando para que todo salga bien durante mi nacimiento.
+                            </p>
+                            
+                            <p class="prayer-thanks">
+                                ¡Gracias por Acompañarnos!
+                            </p>
+                        </div>
+
+                        <!-- Bottom Integrated baby: Playing with cat -->
+                        <div class="prayer-baby-wrap">
+                            <img src="img/fresita agarrando un gato.png" alt="Bebé fresita con gato" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide navigation UI indicators -->
+            <div class="slide-pagination-dots" id="slideDots">
+                <div class="slide-dot-item active" data-target="0"></div>
+                <div class="slide-dot-item" data-target="1"></div>
+                <div class="slide-dot-item" data-target="2"></div>
+            </div>
+
+            <div class="slide-hint-arrow" id="slideHint">
+                <span>Desliza para ver más</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- ────────────────────────────────────────────────────────── -->
+        <!-- POPUP REGISTRO DE CONFIRMACIÓN -->
+        <!-- ────────────────────────────────────────────────────────── -->
+        <div class="popup-overlay" id="rsvpPopup">
+            <div class="popup-box">
+                <button class="popup-close-btn" id="closeRsvpPopup" aria-label="Cerrar">&times;</button>
+                
+                <!-- State 1: Formulario de Registro -->
+                <div class="popup-state active" id="rsvpStateForm">
+                    <div class="pill-container" style="background-color: #FFF2F4; border-color: rgba(255, 117, 151, 0.2); color: var(--pink-dark); margin-bottom: 10px;">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Confirmación</span>
+                    </div>
+                    <h3 class="popup-title">¿Acompañarás a Joyce?</h3>
+                    <p class="popup-subtitle">Por favor, indícanos tus datos para registrar tu asistencia.</p>
+                    
+                    <form class="popup-form" id="rsvpForm" onsubmit="event.preventDefault(); submitRsvp();">
+                        <div class="form-group">
+                            <label for="rsvpName">Nombre y Apellido</label>
+                            <input type="text" id="rsvpName" placeholder="Ej. María García" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rsvpPhone">Teléfono / Celular</label>
+                            <input type="tel" id="rsvpPhone" placeholder="Ej. 987654321" required>
+                        </div>
+                        
+                        <!-- Custom Checkbox -->
+                        <label class="custom-checkbox-label">
+                            <input type="checkbox" id="rsvpConfirmCheck" checked required>
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Confirmo mi asistencia al evento</span>
+                        </label>
+                        
+                        <button type="submit" class="invitation-btn primary" style="width: 100%; margin-top: 15px;">
+                            <i class="fab fa-whatsapp"></i> Confirmar Asistencia
+                        </button>
+                    </form>
+                </div>
+
+                <!-- State 2: Checkmark y Botones de Éxito -->
+                <div class="popup-state" id="rsvpStateSuccess">
+                    <!-- Animated Checkmark Icon -->
+                    <div class="success-checkmark-wrapper">
+                        <svg class="checkmark-svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    
+                    <h3 class="popup-title">¡Asistencia Confirmada!</h3>
+                    <p class="popup-subtitle" style="margin-bottom: 20px;">Tu confirmación ha sido enviada con éxito. ¡Estamos muy felices de contar contigo!</p>
+                    
+                    <div class="popup-success-actions">
+                        <button type="button" class="invitation-btn secondary" id="btnContinueWatching" style="width: 100%; margin-bottom: 8px;">
+                            <i class="fas fa-eye"></i> Seguir Viendo
+                        </button>
+                        <a class="invitation-btn primary" href="regalos.html" style="width: 100%; text-decoration: none;">
+                            <i class="fas fa-gift"></i> Ver Lista de Regalos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ────────────────────────────────────────────────────────── -->
+    <!-- JAVASCRIPT LOGIC -->
+    <!-- ────────────────────────────────────────────────────────── -->
+    <script>
+        // Web Audio Lullaby Synthesizer (Fallback when internet is slow/offline)
+        class LullabySynth {
+            constructor() {
+                this.ctx = null;
+                this.playing = false;
+                // Simple soft music box note pitches: C5, E5, G5, E5, A5...
+                this.notes = [
+                    { note: "C5", dur: 0.8 }, { note: "E5", dur: 0.8 }, { note: "G5", dur: 0.8 }, { note: "E5", dur: 0.8 },
+                    { note: "F5", dur: 0.8 }, { note: "A5", dur: 0.8 }, { note: "C6", dur: 1.6 },
+                    { note: "G5", dur: 0.8 }, { note: "E5", dur: 0.8 }, { note: "C5", dur: 0.8 }, { note: "D5", dur: 0.8 },
+                    { note: "C5", dur: 1.6 }
+                ];
+                this.frequencies = {
+                    "C5": 523.25, "D5": 587.33, "E5": 659.25, "F5": 698.46, "G5": 783.99, "A5": 880.00, "C6": 1046.50
+                };
+                this.timer = null;
+            }
+
+            start() {
+                if (this.playing) return;
+                try {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    this.playing = true;
+                    let index = 0;
+
+                    const playNext = () => {
+                        if (!this.playing) return;
+                        let current = this.notes[index];
+                        this.playTone(this.frequencies[current.note], current.dur * 0.9);
+                        index = (index + 1) % this.notes.length;
+                        this.timer = setTimeout(playNext, current.dur * 1000);
+                    };
+
+                    playNext();
+                } catch(e) {
+                    console.error("Web Audio Synth failed to initialize", e);
+                }
+            }
+
+            stop() {
+                this.playing = false;
+                if (this.timer) clearTimeout(this.timer);
+                if (this.ctx) {
+                    this.ctx.close();
+                    this.ctx = null;
+                }
+            }
+
+            playTone(freq, duration) {
+                if (!this.ctx) return;
+                let osc = this.ctx.createOscillator();
+                let gainNode = this.ctx.createGain();
+
+                osc.connect(gainNode);
+                gainNode.connect(this.ctx.destination);
+
+                // Gingham music box chime style: sine wave with fast decay
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+                gainNode.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            }
+        }
+
+        const synth = new LullabySynth();
+        let useSynth = false;
+
+        // Elements
+        const coverScreen = document.getElementById('coverScreen');
+        const openBtn = document.getElementById('openBtn');
+        const waxSeal = document.getElementById('waxSeal');
+        const audioToggle = document.getElementById('audioToggle');
+        const audioIcon = document.getElementById('audioIcon');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        const cinematicContainer = document.getElementById('cinematicContainer');
+        const stork = document.getElementById('stork');
+        const storkFallback = document.getElementById('storkFallback');
+        const baby = document.getElementById('baby');
+        const babyFallback = document.getElementById('babyFallback');
+        const flash = document.getElementById('flash');
+        
+        const slidesWrapper = document.getElementById('slidesWrapper');
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slide-dot-item');
+        const slideHint = document.getElementById('slideHint');
+
+        // Check if audio file fails, mark synth fallback
+        bgMusic.addEventListener('error', () => {
+            console.warn("Background music MP3 failed to load, falling back to Web Audio Synth.");
+            useSynth = true;
+        });
+
+        // Initialize Audio Playback
+        let audioPlaying = false;
+        function startMusic() {
+            if (audioPlaying) return;
+            audioPlaying = true;
+            audioToggle.style.display = 'flex';
+            audioToggle.classList.add('playing');
+            audioIcon.className = 'fas fa-volume-up';
+
+            if (useSynth) {
+                synth.start();
+            } else {
+                bgMusic.play().catch(err => {
+                    console.warn("Autoplay audio failed, switching to synth fallback.", err);
+                    synth.start();
+                    useSynth = true;
+                });
+            }
+        }
+
+        function toggleMusic() {
+            if (audioPlaying) {
+                audioPlaying = false;
+                audioToggle.classList.remove('playing');
+                audioIcon.className = 'fas fa-volume-mute';
+                if (useSynth) synth.stop();
+                else bgMusic.pause();
+            } else {
+                audioPlaying = true;
+                audioToggle.classList.add('playing');
+                audioIcon.className = 'fas fa-volume-up';
+                if (useSynth) synth.start();
+                else bgMusic.play().catch(() => synth.start());
+            }
+        }
+
+        audioToggle.addEventListener('click', toggleMusic);
+
+        // Particle Generators (Sparkles)
+        const ambientContainer = document.getElementById('ambientSparkles');
+        
+        function spawnSparkle(container, x, y, duration = 3000, isStrawberry = false) {
+            const particle = document.createElement('div');
+            particle.className = isStrawberry ? 'strawberry-particle' : 'particle';
+            
+            const size = isStrawberry ? 24 : Math.random() * 8 + 4;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            // Random direction movement
+            const dx = (Math.random() - 0.5) * 60;
+            const dy = (Math.random() - 0.5) * 80 + 30; // Tendency to float downwards
+            const rot = (Math.random() - 0.5) * 180;
+            
+            container.appendChild(particle);
+            
+            // Animation via keyframe fallback or WAAPI for performance
+            const anim = particle.animate([
+                { opacity: 0, transform: 'translate(0,0) rotate(0deg) scale(0.5)' },
+                { opacity: 0.8, transform: `translate(${dx*0.2}px, ${dy*0.2}px) rotate(${rot*0.2}deg) scale(1)` },
+                { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(0.3)` }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+            });
+            
+            anim.onfinish = () => particle.remove();
+        }
+
+        // Ambient sparks floating in background continuously
+        setInterval(() => {
+            if (coverScreen.classList.contains('hidden')) {
+                const w = ambientContainer.clientWidth;
+                const h = ambientContainer.clientHeight;
+                const x = Math.random() * w;
+                const y = Math.random() * (h * 0.8);
+                // 10% chance of spawning floating strawberry
+                spawnSparkle(ambientContainer, x, y, Math.random() * 4000 + 3000, Math.random() < 0.12);
+            }
+        }, 800);
+
+        // ──────────────────────────────────────────────────────────
+        // START INTRO FLOW
+        // ──────────────────────────────────────────────────────────
+        function startCinematicIntro() {
+            // Trigger Scene 1: Stork flying
+            stork.classList.add('flying');
+
+            // Generating sparkles along the fly path of the stork
+            let storkSparkleInterval = setInterval(() => {
+                const storkRect = stork.getBoundingClientRect();
+                const containerRect = cinematicContainer.getBoundingClientRect();
+                const localLeft = storkRect.left - containerRect.left;
+                
+                if (localLeft > -100 && localLeft < containerRect.width + 100) {
+                    const x = localLeft + storkRect.width / 2;
+                    const y = storkRect.top - containerRect.top + storkRect.height * 0.75;
+                    spawnSparkle(cinematicContainer, x, y, 1500, Math.random() < 0.15);
+                }
+            }, 100);
+
+            // Scene 2 & 3: Drop delivery
+            setTimeout(() => {
+                // Stop stork flapping to perform a short hover/bounce
+                stork.classList.add('delivering');
+                
+                // Change stork image to represent releasing the baby
+                const storkImg = stork.querySelector('.stork-img');
+                if (storkImg) storkImg.src = 'img/cigueña botando a fresita.png';
+                
+                // Drop baby
+                baby.classList.add('falling');
+                
+                // Sparks around falling baby
+                let babySparkleInterval = setInterval(() => {
+                    const babyRect = baby.getBoundingClientRect();
+                    const containerRect = cinematicContainer.getBoundingClientRect();
+                    if (babyRect.top > 0) {
+                        const x = babyRect.left - containerRect.left + babyRect.width / 2 + (Math.random() - 0.5) * 40;
+                        const y = babyRect.top - containerRect.top + babyRect.height / 2;
+                        spawnSparkle(cinematicContainer, x, y, 2000, Math.random() < 0.3);
+                    }
+                }, 80);
+
+                setTimeout(() => clearInterval(babySparkleInterval), 4000);
+
+            }, 2600);
+
+            // Stork starts flying away again: remove hover bounce to resume flapping wings
+            setTimeout(() => {
+                stork.classList.remove('delivering');
+            }, 3900);
+
+            // Scene 4: Camera flash transition and show the virtual envelope
+            setTimeout(() => {
+                clearInterval(storkSparkleInterval);
+                flash.classList.add('flash');
+                
+                // Switch cinematic cover screen off and fade in the Cover Screen (envelope)
+                setTimeout(() => {
+                    cinematicContainer.classList.add('hidden');
+                    coverScreen.classList.add('visible');
+                }, 400); // During middle of flash
+
+            }, 6400);
+        }
+
+        // Open invitation from cover screen
+        function openInvitation() {
+            coverScreen.classList.remove('visible');
+            coverScreen.classList.add('opened');
+            slidesWrapper.classList.add('visible');
+            startMusic();
+            
+            // Trigger custom sparkle blast on open
+            const containerRect = slidesWrapper.getBoundingClientRect();
+            const centerX = containerRect.width / 2;
+            const centerY = containerRect.height / 2;
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    spawnSparkle(ambientContainer, centerX + (Math.random() - 0.5) * 100, centerY + (Math.random() - 0.5) * 100, Math.random() * 2000 + 1000, i % 3 === 0);
+                }, i * 20);
+            }
+        }
+
+        openBtn.addEventListener('click', openInvitation);
+        waxSeal.addEventListener('click', openInvitation);
+
+        // Parse URL parameters and handle personalized guest welcome
+        function processGuestName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let guestName = urlParams.get('invitado') || urlParams.get('name') || urlParams.get('guest');
+            
+            if (guestName) {
+                guestName = decodeURIComponent(guestName).trim();
+                localStorage.setItem('guest_name', guestName);
+            } else {
+                guestName = localStorage.getItem('guest_name');
+            }
+            
+            if (guestName) {
+                // 1. Show header card on cover screen
+                const guestCard = document.getElementById('guestCard');
+                const guestNameSpan = document.getElementById('guestNameSpan');
+                if (guestCard && guestNameSpan) {
+                    guestNameSpan.innerText = guestName;
+                    guestCard.style.display = 'flex';
+                }
+                
+                // 2. Show slide 0 welcome heading
+                const welcomeGuestName = document.getElementById('welcomeGuestName');
+                if (welcomeGuestName) {
+                    welcomeGuestName.innerText = `¡Hola, ${guestName}!`;
+                    welcomeGuestName.style.display = 'block';
+                }
+                
+                // 3. Autocomplete form field
+                const rsvpNameInput = document.getElementById('rsvpName');
+                if (rsvpNameInput) {
+                    rsvpNameInput.value = guestName;
+                }
+                
+                // 4. Update the links to regalos.html to forward guest param
+                const registryLinks = document.querySelectorAll('a[href^="regalos.html"]');
+                registryLinks.forEach(link => {
+                    const baseUrl = link.getAttribute('href').split('?')[0];
+                    link.setAttribute('href', `${baseUrl}?invitado=${encodeURIComponent(guestName)}`);
+                });
+            }
+        }
+
+        // Run stork animation automatically on load and attempt music play
+        function initAll() {
+            processGuestName();
+            startCinematicIntro();
+            // Attempt autoplay after 1.2s
+            setTimeout(startMusic, 1200);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAll);
+        } else {
+            initAll();
+        }
+
+        // Global interaction fallback for audio autoplay restrictions
+        const startOnInteraction = () => {
+            startMusic();
+            document.removeEventListener('click', startOnInteraction);
+            document.removeEventListener('touchstart', startOnInteraction);
+        };
+        document.addEventListener('click', startOnInteraction, { passive: true });
+        document.addEventListener('touchstart', startOnInteraction, { passive: true });
+
+        // ──────────────────────────────────────────────────────────
+        // SLIDES SYSTEM (SWIPER NATIVO)
+        // ──────────────────────────────────────────────────────────
+        let currentIndex = 0;
+        let isAnimating = false;
+        const totalSlides = slides.length;
+
+        function goToSlide(nextIndex) {
+            if (rsvpPopup.classList.contains('active')) return;
+            if (isAnimating || nextIndex === currentIndex || nextIndex < 0 || nextIndex >= totalSlides) return;
+            isAnimating = true;
+            
+            const prevSlide = slides[currentIndex];
+            const nextSlide = slides[nextIndex];
+            const movingDown = nextIndex > currentIndex;
+
+            // Prepare next slide position before animating
+            nextSlide.style.transition = 'none';
+            nextSlide.style.transform = movingDown ? 'translateY(100%)' : 'translateY(-100%)';
+            nextSlide.style.opacity = '0';
+            
+            // Force redraw/reflow
+            nextSlide.offsetHeight;
+
+            requestAnimationFrame(() => {
+                // Animate to new positions
+                nextSlide.style.transition = '';
+                nextSlide.style.transform = 'translateY(0)';
+                nextSlide.style.opacity = '1';
+                nextSlide.classList.add('active');
+                nextSlide.classList.remove('prev'); // Restore pointer-events by removing prev class
+
+                prevSlide.style.transform = movingDown ? 'translateY(-100%)' : 'translateY(100%)';
+                prevSlide.style.opacity = '0';
+                prevSlide.classList.remove('active');
+                if (movingDown) {
+                    prevSlide.classList.add('prev');
+                } else {
+                    prevSlide.classList.remove('prev');
+                }
+
+                currentIndex = nextIndex;
+                
+                // Update pagination dots
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentIndex);
+                });
+
+                // Hide scroll hint on the final page
+                slideHint.classList.toggle('hidden', currentIndex === totalSlides - 1);
+
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 800);
+            });
+        }
+
+        // Swipe Gestures
+        let startY = null;
+        window.addEventListener('touchstart', (e) => {
+            if (rsvpPopup.classList.contains('active')) return;
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            if (rsvpPopup.classList.contains('active')) return;
+            if (startY === null) return;
+            const diffY = startY - e.changedTouches[0].clientY;
+            
+            // Swipe threshold 40px
+            if (Math.abs(diffY) > 40) {
+                if (diffY > 0) {
+                    goToSlide(currentIndex + 1);
+                } else {
+                    goToSlide(currentIndex - 1);
+                }
+            }
+            startY = null;
+        }, { passive: true });
+
+        // Wheel and Arrow navigations
+        let wheelTimeout = null;
+        window.addEventListener('wheel', (e) => {
+            if (rsvpPopup.classList.contains('active')) return;
+            if (wheelTimeout || !slidesWrapper.classList.contains('visible')) return;
+            if (e.deltaY > 25) {
+                goToSlide(currentIndex + 1);
+            } else if (e.deltaY < -25) {
+                goToSlide(currentIndex - 1);
+            }
+            wheelTimeout = setTimeout(() => wheelTimeout = null, 850);
+        }, { passive: true });
+
+        window.addEventListener('keydown', (e) => {
+            if (rsvpPopup.classList.contains('active')) return;
+            if (!slidesWrapper.classList.contains('visible')) return;
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                goToSlide(currentIndex + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                goToSlide(currentIndex - 1);
+            }
+        });
+
+        // Click on dots
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToSlide(parseInt(dot.dataset.target, 10));
+            });
+        });
+
+        // ──────────────────────────────────────────────────────────
+        // RSVP POPUP CONTROL LOGIC
+        // ──────────────────────────────────────────────────────────
+        const rsvpPopup = document.getElementById('rsvpPopup');
+        const rsvpForm = document.getElementById('rsvpForm');
+        const rsvpStateForm = document.getElementById('rsvpStateForm');
+        const rsvpStateSuccess = document.getElementById('rsvpStateSuccess');
+        const closeRsvpPopup = document.getElementById('closeRsvpPopup');
+        const btnContinueWatching = document.getElementById('btnContinueWatching');
+        const confirmButton = document.getElementById('confirmButton');
+
+        // Open Popup
+        confirmButton.addEventListener('click', () => {
+            rsvpPopup.classList.add('active');
+            rsvpStateForm.classList.add('active');
+            rsvpStateSuccess.classList.remove('active');
+            rsvpForm.reset();
+            
+            // Re-aplicar el nombre guardado para autocompletar tras el reset
+            const storedName = localStorage.getItem('guest_name');
+            if (storedName) {
+                document.getElementById('rsvpName').value = storedName;
+            }
+        });
+
+        // Close Popup
+        const hidePopup = () => {
+            rsvpPopup.classList.remove('active');
+        };
+        closeRsvpPopup.addEventListener('click', hidePopup);
+        btnContinueWatching.addEventListener('click', hidePopup);
+
+        // Click outside popup overlay to close
+        rsvpPopup.addEventListener('click', (e) => {
+            if (e.target === rsvpPopup) {
+                hidePopup();
+            }
+        });
+
+        // Configuración de Google Sheets (Copia la URL del Web App de Apps Script aquí para producción)
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxRWRChVWt8HFgX4hfj4jklGslllF09tpqBQJzi44A8UEbnhgWCxNCD2-1s-udcBYfZLQ/exec";
+
+        // Submit RSVP Form
+        window.submitRsvp = function() {
+            const name = document.getElementById('rsvpName').value.trim();
+            const phone = document.getElementById('rsvpPhone').value.trim();
+            const confirmCheck = document.getElementById('rsvpConfirmCheck').checked;
+
+            if (!name || !phone) {
+                alert("Por favor, completa los campos requeridos.");
+                return;
+            }
+
+            // Registrar en localStorage (para pruebas o guardado local)
+            try {
+                let rsvps = JSON.parse(localStorage.getItem('rsvp_list') || '[]');
+                const timestamp = new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' });
+                rsvps.push({
+                    num: rsvps.length + 1,
+                    date: timestamp,
+                    name: name,
+                    phone: phone
+                });
+                localStorage.setItem('rsvp_list', JSON.stringify(rsvps));
+            } catch (err) {
+                console.error("Error guardando localmente en el navegador:", err);
+            }
+
+            // Registrar asistencia en segundo plano (híbrido local/nube)
+            const endpoint = GOOGLE_SHEET_URL || '/api/confirmar';
+            const fetchOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, phone: phone })
+            };
+
+            // Para Google Sheets en GitHub Pages, omitimos CORS usando no-cors
+            if (GOOGLE_SHEET_URL) {
+                fetchOptions.mode = 'no-cors';
+            }
+
+            fetch(endpoint, fetchOptions)
+                .then(res => {
+                    if (!GOOGLE_SHEET_URL && res && res.ok) {
+                        return res.json();
+                    }
+                })
+                .then(data => {
+                    if (data) console.log("Confirmación registrada en local:", data);
+                })
+                .catch(err => {
+                    console.warn("El registro automático falló o requiere configuración adicional (esto es normal si corres localmente sin el servidor o en GitHub Pages sin configurar la URL de Google Sheets):", err);
+                });
+
+            // Switch modal states (YA NO redirige a WhatsApp, sólo guarda y muestra éxito)
+            rsvpStateForm.classList.remove('active');
+            rsvpStateSuccess.classList.add('active');
+        };
+
+        // Panel de Administración (Acceso mediante ?admin=true en la URL)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('admin') === 'true') {
+            createAdminPanel();
+        }
+
+        function createAdminPanel() {
+            // Crear botón flotante de Admin
+            const adminBtn = document.createElement('button');
+            adminBtn.innerHTML = '<i class="fas fa-cog"></i>';
+            adminBtn.className = 'admin-float-btn';
+            adminBtn.title = 'Panel Admin';
+            document.body.appendChild(adminBtn);
+
+            // Crear Modal de Admin
+            const adminOverlay = document.createElement('div');
+            adminOverlay.className = 'admin-overlay';
+            adminOverlay.innerHTML = `
+                <div class="admin-box">
+                    <button class="admin-close-btn">&times;</button>
+                    <h3 style="font-family:var(--font-title); color:var(--pink-dark); font-size:1.3rem; margin-bottom:8px;">Panel de Admin</h3>
+                    <p style="font-size:0.72rem; color:var(--brown-light); margin-bottom:12px;">Confirmaciones guardadas en este navegador:</p>
+                    
+                    <div class="admin-list-container" id="adminListContainer"></div>
+                    
+                    <div style="margin-top:15px; display:flex; gap:8px; justify-content:center;">
+                        <button class="invitation-btn primary" id="btnDownloadTxt" style="font-size:0.7rem; padding:8px 12px; flex:1;">
+                            <i class="fas fa-download"></i> confirmaciones.txt
+                        </button>
+                        <button class="invitation-btn secondary" id="btnClearRsvps" style="font-size:0.7rem; padding:8px 12px; border-color:var(--strawberry-red); color:var(--strawberry-red); flex:1;">
+                            <i class="fas fa-trash"></i> Limpiar Todo
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(adminOverlay);
+
+            const closeBtn = adminOverlay.querySelector('.admin-close-btn');
+            closeBtn.addEventListener('click', () => adminOverlay.classList.remove('active'));
+            adminBtn.addEventListener('click', () => {
+                adminOverlay.classList.add('active');
+                renderAdminList();
+            });
+
+            // Cerrar al hacer clic fuera del recuadro
+            adminOverlay.addEventListener('click', (e) => {
+                if (e.target === adminOverlay) {
+                    adminOverlay.classList.remove('active');
+                }
+            });
+
+            // Lógica para descargar TXT
+            adminOverlay.querySelector('#btnDownloadTxt').addEventListener('click', () => {
+                const rsvps = JSON.parse(localStorage.getItem('rsvp_list') || '[]');
+                if (rsvps.length === 0) {
+                    alert("No hay registros guardados localmente para descargar.");
+                    return;
+                }
+                let txtContent = "# Lista de Confirmaciones - Baby Shower Joyce\n\n";
+                rsvps.forEach(r => {
+                    txtContent += `${r.num}. [${r.date}] Nombre: ${r.name} | Teléfono: ${r.phone}\n`;
+                });
+                
+                const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'confirmaciones.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            // Lógica para borrar lista
+            adminOverlay.querySelector('#btnClearRsvps').addEventListener('click', () => {
+                if (confirm("¿Estás seguro de que deseas vaciar todas las asistencias y reservas de regalos guardadas localmente en este navegador?")) {
+                    localStorage.removeItem('rsvp_list');
+                    localStorage.removeItem('reserved_gifts');
+                    renderAdminList();
+                }
+            });
+
+            function renderAdminList() {
+                const container = adminOverlay.querySelector('#adminListContainer');
+                const rsvps = JSON.parse(localStorage.getItem('rsvp_list') || '[]');
+                if (rsvps.length === 0) {
+                    container.innerHTML = '<div style="font-size:0.75rem; color:var(--brown-light); padding:20px 0; font-style:italic;">No hay confirmaciones aún.</div>';
+                    return;
+                }
+
+                let html = '<table style="width:100%; border-collapse:collapse; font-size:0.72rem; text-align:left;">';
+                html += '<tr style="border-bottom:1px solid rgba(93,67,58,0.1); color:var(--brown-text); font-weight:700;"><th style="padding:4px;">#</th><th style="padding:4px;">Nombre</th><th style="padding:4px;">Teléfono</th></tr>';
+                rsvps.forEach(r => {
+                    html += `<tr style="border-bottom:1px dashed rgba(93,67,58,0.05); color:var(--brown-light);"><td style="padding:4px;">${r.num}</td><td style="padding:4px; font-weight:600; color:var(--brown-text);">${r.name}</td><td style="padding:4px;">${r.phone}</td></tr>`;
+                });
+                html += '</table>';
+                container.innerHTML = html;
+            }
+        }
+
+        // Copy Account/Phone Clipboard utility
+        window.copyText = function(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                btnElement.style.backgroundColor = 'var(--green-leaf)';
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.style.backgroundColor = '';
+                }, 2000);
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
+        };
+    </script>
+</body>
+</html>
